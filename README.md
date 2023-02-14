@@ -1,6 +1,6 @@
-# pretty-webdav-politech-schedule
+# pretty-caldav-politech-schedule
 
-pretty-webdav-politech-schedule is a Java project that parses college schedule site APIs and streams WebDAV with pretty descriptions and titles for calendar events. It is released under the GNU 3.0 license.
+pretty-caldav-politech-schedule is a Java project that parses college schedule site APIs and streams WebDAV with pretty descriptions and titles for calendar events. It is released under the GNU 3.0 license.
 
 ## Features
 

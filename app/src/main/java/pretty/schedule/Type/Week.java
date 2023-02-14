@@ -1,31 +1,36 @@
 package pretty.schedule.Type;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Week {
-    private String date_start;
-    private String date_end;
-    private boolean is_odd;
+    @JsonProperty("date_start")
+    private String dateStart;
+    @JsonProperty("date_end")
+    private String dateEnd;
+    @JsonProperty("is_odd")
+    private boolean isOdd;
 
-    public String getDate_start() {
-        return date_start;
+    public String getDateStart() {
+        return dateStart;
     }
 
-    public void setDate_start(String date_start) {
-        this.date_start = date_start;
+    public void setDateStart(String dateStart) {
+        this.dateStart = dateStart;
     }
 
-    public String getDate_end() {
-        return date_end;
+    public String getDateEnd() {
+        return dateEnd;
     }
 
-    public void setDate_end(String date_end) {
-        this.date_end = date_end;
+    public void setDateEnd(String dateEnd) {
+        this.dateEnd = dateEnd;
     }
 
-    public boolean isIs_odd() {
-        return is_odd;
+    public boolean isOdd() {
+        return isOdd;
     }
 
-    public void setIs_odd(boolean is_odd) {
-        this.is_odd = is_odd;
+    public void setOdd(boolean isOdd) {
+        this.isOdd = isOdd;
     }
 }

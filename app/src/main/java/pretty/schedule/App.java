@@ -1,18 +1,11 @@
 package pretty.schedule;
 
-import java.time.Instant;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import pretty.schedule.Scraper.Scraper;
-
+@SpringBootApplication
 public class App {
     public static void main(String[] args) {
-        var url = "https://ruz.spbstu.ru/";
-        var s = new Scraper(url);
-        try {
-            System.out.println(s.getScheduleOfWeek("36267", Instant.now()).getWeek().getDateEnd() + "");
-        } catch (Exception e) {
-            System.out.println(e);
-            e.printStackTrace();
-        }
+        SpringApplication.run(App.class, args);
     }
 }

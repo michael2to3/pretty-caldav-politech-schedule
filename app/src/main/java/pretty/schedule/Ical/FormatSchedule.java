@@ -2,13 +2,26 @@ package pretty.schedule.Ical;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
+import net.fortuna.ical4j.model.component.VEvent;
 import pretty.schedule.Type.ScheduleOfDay;
 
 public class FormatSchedule {
     final static private String TIME_ZONE = "Erope/Moscow";
     final static private String FORMAT_DATE = "YYYY-M-d";
+
+    public static String getTimeZone() {
+        return TIME_ZONE;
+    }
+
+    public static String getFormatDate() {
+        return FORMAT_DATE;
+    }
+
     private ScheduleOfDay schedule;
+
     private LocalDate date;
 
     public FormatSchedule(final ScheduleOfDay schedule) {
@@ -33,14 +46,6 @@ public class FormatSchedule {
         return date.getYear();
     }
 
-    public static String getTimeZone() {
-        return TIME_ZONE;
-    }
-
-    public static String getFormatDate() {
-        return FORMAT_DATE;
-    }
-
     public ScheduleOfDay getSchedule() {
         return schedule;
     }
@@ -55,5 +60,17 @@ public class FormatSchedule {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public List<VEvent> getEvent(final FormatSchedule schedule) {
+        List<VEvent> list = new ArrayList<>();
+        int year = schedule.getYear();
+        int month = schedule.getMonth();
+        int day = schedule.getDayOfMonth();
+        for (var lesson : schedule.getSchedule().getLessons()) {
+            var formatLesson = new FormatLesson(lesson);
+            list.add(formatLesson.generateEvent(year, month, day));
+        }
+        return list;
     }
 }

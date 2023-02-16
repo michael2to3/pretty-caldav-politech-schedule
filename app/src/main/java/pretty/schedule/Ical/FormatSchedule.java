@@ -5,72 +5,68 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.fortuna.ical4j.model.TimeZone;
 import net.fortuna.ical4j.model.component.VEvent;
 import pretty.schedule.Type.ScheduleOfDay;
 
 public class FormatSchedule {
-    final static private String TIME_ZONE = "Erope/Moscow";
-    final static private String FORMAT_DATE = "YYYY-M-d";
+	final static private String TIME_ZONE = "Erope/Moscow";
+	final static private String FORMAT_DATE = "yyyy-M-d";
+	private final ScheduleOfDay schedule;
+	private LocalDate date;
 
-    public static String getTimeZone() {
-        return TIME_ZONE;
-    }
+	public static String getTimeZone() {
+		return TIME_ZONE;
+	}
 
-    public static String getFormatDate() {
-        return FORMAT_DATE;
-    }
+	public static String getFormatDate() {
+		return FORMAT_DATE;
+	}
 
-    private ScheduleOfDay schedule;
+	public FormatSchedule(final ScheduleOfDay schedule) {
+		this.schedule = schedule;
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(FORMAT_DATE);
+		this.date = LocalDate.parse(schedule.getDate(), dateFormatter);
+	}
 
-    private LocalDate date;
+	public int getMonth() {
+		return date.getMonth().getValue();
+	}
 
-    public FormatSchedule(final ScheduleOfDay schedule) {
-        this.schedule = schedule;
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(FORMAT_DATE);
-        this.date = LocalDate.parse(schedule.getDate(), dateFormatter);
-    }
+	public int getDayOfMonth() {
+		return date.getDayOfMonth();
+	}
 
-    public int getMonth() {
-        return date.getMonth().getValue();
-    }
+	public int getYear() {
+		return date.getYear();
+	}
 
-    public int getDayOfMonth() {
-        return date.getDayOfMonth();
-    }
+	public int getHourOfDay() {
+		return date.getYear();
+	}
 
-    public int getYear() {
-        return date.getYear();
-    }
+	public ScheduleOfDay getSchedule() {
+		return schedule;
+	}
 
-    public int getHourOfDay() {
-        return date.getYear();
-    }
+	public LocalDate getDate() {
+		return date;
+	}
 
-    public ScheduleOfDay getSchedule() {
-        return schedule;
-    }
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
 
-    public void setSchedule(ScheduleOfDay schedule) {
-        this.schedule = schedule;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public List<VEvent> getEvent(final FormatSchedule schedule) {
-        List<VEvent> list = new ArrayList<>();
-        int year = schedule.getYear();
-        int month = schedule.getMonth();
-        int day = schedule.getDayOfMonth();
-        for (var lesson : schedule.getSchedule().getLessons()) {
-            var formatLesson = new FormatLesson(lesson);
-            list.add(formatLesson.generateEvent(year, month, day));
-        }
-        return list;
-    }
+	public List<VEvent> getEvent() {
+		final java.util.TimeZone tz = TimeZone.getTimeZone(TIME_ZONE);
+		List<VEvent> list = new ArrayList<>();
+		int year = getYear();
+		int month = getMonth();
+		int day = getDayOfMonth();
+		for (var lesson : schedule.getLessons()) {
+			var formatLesson = new FormatLesson(lesson);
+			list.add(formatLesson.generateEvent(tz, year, month, day));
+		}
+		return list;
+	}
 }

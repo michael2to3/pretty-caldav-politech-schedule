@@ -68,11 +68,10 @@ public class FormatLesson {
         var name = lesson.getSubject();
         var event = new VEvent(new DateTime(start.getTime()), new DateTime(end.getTime()), name);
 
-        Uid uid = new Uid(UUID.randomUUID().toString() + System.currentTimeMillis());
-
         StringBuilder desc = new StringBuilder();
         desc.append(lesson.getAuditories());
 
+        Uid uid = new Uid(UUID.randomUUID().toString() + System.currentTimeMillis());
         event.getProperties().add(uid);
         event.getProperties().add(new Description(desc.toString()));
         event.getProperties().add(new Location(lesson.getAuditories().toString()));

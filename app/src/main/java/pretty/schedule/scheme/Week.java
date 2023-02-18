@@ -1,4 +1,4 @@
-package pretty.schedule.Scheme;
+package pretty.schedule.scheme;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

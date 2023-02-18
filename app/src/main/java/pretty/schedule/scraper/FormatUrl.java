@@ -1,4 +1,4 @@
-package pretty.schedule.Scraper;
+package pretty.schedule.scraper;
 
 import java.time.Instant;
 import java.time.ZoneId;

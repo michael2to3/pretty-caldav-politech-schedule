@@ -1,4 +1,4 @@
-package pretty.schedule.Ical;
+package pretty.schedule.ical;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;

@@ -1,4 +1,4 @@
-package pretty.schedule.Scheme;
+package pretty.schedule.scheme;
 
 public class TypeObj {
     private int id;

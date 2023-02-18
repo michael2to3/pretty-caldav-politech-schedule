@@ -1,10 +1,10 @@
-package pretty.schedule.Scheme;
+package pretty.schedule.scheme;
 
-public class Error {
+public class ErrorResponse {
     private String status;
     private String message;
 
-    public Error(final String status, final String message) {
+    public ErrorResponse(final String status, final String message) {
         this.status = status;
         this.message = message;
     }

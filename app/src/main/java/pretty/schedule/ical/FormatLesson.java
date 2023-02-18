@@ -1,4 +1,4 @@
-package pretty.schedule.Ical;
+package pretty.schedule.ical;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -16,9 +16,11 @@ import net.fortuna.ical4j.model.property.DtStart;
 import net.fortuna.ical4j.model.property.Location;
 import net.fortuna.ical4j.model.property.Summary;
 import net.fortuna.ical4j.model.property.Uid;
-import pretty.schedule.Scheme.Lesson;
+import pretty.schedule.scheme.Lesson;
 
 public class FormatLesson {
+    final static private String TIME_ZONE = "Erope/Moscow";
+    private static final java.util.TimeZone TZ = TimeZone.getTimeZone(TIME_ZONE);
     private final Lesson lesson;
 
     public FormatLesson(final Lesson lesson) {
@@ -27,7 +29,7 @@ public class FormatLesson {
 
     private Calendar generateCal() {
         TimeZoneRegistry registry = TimeZoneRegistryFactory.getInstance().createRegistry();
-        TimeZone timezone = registry.getTimeZone(FormatSchedule.getTimeZone());
+        TimeZone timezone = registry.getTimeZone(TIME_ZONE);
 
         java.util.Calendar date = new GregorianCalendar();
         date.setTimeZone(timezone);
@@ -36,31 +38,31 @@ public class FormatLesson {
 
     }
 
-    public Calendar getStartDate(final java.util.TimeZone tz) {
+    public Calendar getStartDate() {
         java.util.Calendar date = generateCal();
         var time = new FormatTime(lesson.getTimeStart());
-        date.setTimeZone(tz);
+        date.setTimeZone(TZ);
         date.set(java.util.Calendar.HOUR, time.getHour());
         date.set(java.util.Calendar.MINUTE, time.getMinute());
         return date;
     }
 
-    public Calendar getEndDate(final java.util.TimeZone tz) {
+    public Calendar getEndDate() {
         java.util.Calendar date = generateCal();
         var time = new FormatTime(lesson.getTimeEnd());
-        date.setTimeZone(tz);
+        date.setTimeZone(TZ);
         date.set(java.util.Calendar.HOUR, time.getHour());
         date.set(java.util.Calendar.MINUTE, time.getMinute());
         return date;
     }
 
-    public VEvent generateEvent(final java.util.TimeZone tz, final int year, final int month, final int day) {
-        java.util.Calendar start = getStartDate(tz);
+    public VEvent generateEvent(final int year, final int month, final int day) {
+        java.util.Calendar start = getStartDate();
         start.set(java.util.Calendar.YEAR, year);
         start.set(java.util.Calendar.MONTH, month);
         start.set(java.util.Calendar.DAY_OF_MONTH, day);
 
-        java.util.Calendar end = getEndDate(tz);
+        java.util.Calendar end = getEndDate();
         end.set(java.util.Calendar.YEAR, year);
         end.set(java.util.Calendar.MONTH, month);
         end.set(java.util.Calendar.DAY_OF_MONTH, day);

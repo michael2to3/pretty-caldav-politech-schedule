@@ -1,9 +1,9 @@
-package pretty.schedule.Scheme;
+package pretty.schedule.scheme;
 
-public class Auditorie {
+public class Faculty {
     private int id;
     private String name;
-    private Building building;
+    private String abbr;
 
     public int getId() {
         return id;
@@ -21,11 +21,12 @@ public class Auditorie {
         this.name = name;
     }
 
-    public Building getBuilding() {
-        return building;
+    public String getAbbr() {
+        return abbr;
     }
 
-    public void setBuilding(Building building) {
-        this.building = building;
+    public void setAbbr(String abbr) {
+        this.abbr = abbr;
     }
+
 }

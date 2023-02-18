@@ -1,8 +1,13 @@
-package pretty.schedule.Scraper;
+package pretty.schedule.scraper;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.DayOfWeek;
+import java.time.Duration;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,15 +15,38 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import pretty.schedule.Scheme.Faculty;
-import pretty.schedule.Scheme.Group;
-import pretty.schedule.Scheme.ScheduleOfWeek;
+import pretty.schedule.scheme.Faculty;
+import pretty.schedule.scheme.Group;
+import pretty.schedule.scheme.ScheduleOfWeek;
 
 public class Scraper {
     private final String url;
 
     public Scraper(final String url) {
         this.url = url;
+    }
+
+    private List<Instant> getListDateOfRange(final Instant startDate, final Instant endDate) {
+        List<Instant> list = new ArrayList<>();
+        Instant current = startDate;
+        while (!current.isAfter(endDate)) {
+            list.add(current);
+            current = current.plus(Duration.ofDays(7));
+        }
+        return list;
+    }
+
+    public List<ScheduleOfWeek> getRangeScheduleOfWeek(final String numGroup, final Instant startDate,
+            final Instant endDate) throws JsonParseException, JsonMappingException, IOException {
+        ZonedDateTime zone = startDate.atZone(ZoneId.systemDefault());
+        ZonedDateTime prevMonday = zone.with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
+        List<Instant> dates = getListDateOfRange(prevMonday.toInstant(), endDate);
+        List<ScheduleOfWeek> sch = new ArrayList<>();
+        for (Instant date : dates) {
+            sch.add(getScheduleOfWeek(numGroup, date));
+        }
+        return sch;
+
     }
 
     public ScheduleOfWeek getScheduleOfWeek(final String numGroup, final Instant date)

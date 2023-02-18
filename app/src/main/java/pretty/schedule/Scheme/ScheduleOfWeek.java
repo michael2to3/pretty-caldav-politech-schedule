@@ -1,4 +1,4 @@
-package pretty.schedule.Type;
+package pretty.schedule.Scheme;
 
 import java.util.List;
 

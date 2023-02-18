@@ -1,4 +1,4 @@
-package pretty.schedule.Type;
+package pretty.schedule.Scheme;
 
 public class Group {
     private int id;

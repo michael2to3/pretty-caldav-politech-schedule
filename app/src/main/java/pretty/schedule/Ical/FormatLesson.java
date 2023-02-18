@@ -16,7 +16,7 @@ import net.fortuna.ical4j.model.property.DtStart;
 import net.fortuna.ical4j.model.property.Location;
 import net.fortuna.ical4j.model.property.Summary;
 import net.fortuna.ical4j.model.property.Uid;
-import pretty.schedule.Type.Lesson;
+import pretty.schedule.Scheme.Lesson;
 
 public class FormatLesson {
     private final Lesson lesson;

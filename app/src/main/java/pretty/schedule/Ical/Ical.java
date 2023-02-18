@@ -7,7 +7,7 @@ import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.CalScale;
 import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.Version;
-import pretty.schedule.Type.ScheduleOfDay;
+import pretty.schedule.Scheme.ScheduleOfDay;
 
 public class Ical {
     private FormatSchedule schedule;

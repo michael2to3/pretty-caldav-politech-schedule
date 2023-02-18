@@ -10,9 +10,9 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import pretty.schedule.Type.Faculty;
-import pretty.schedule.Type.Group;
-import pretty.schedule.Type.ScheduleOfWeek;
+import pretty.schedule.Scheme.Faculty;
+import pretty.schedule.Scheme.Group;
+import pretty.schedule.Scheme.ScheduleOfWeek;
 
 public class Scraper {
     private final String url;

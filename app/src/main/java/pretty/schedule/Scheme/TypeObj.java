@@ -1,10 +1,9 @@
-package pretty.schedule.Type;
+package pretty.schedule.Scheme;
 
-public class Building {
+public class TypeObj {
     private int id;
     private String name;
     private String abbr;
-    private String address;
 
     public int getId() {
         return id;
@@ -30,11 +29,4 @@ public class Building {
         this.abbr = abbr;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 }

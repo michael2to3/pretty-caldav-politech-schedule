@@ -7,7 +7,7 @@ import java.util.List;
 
 import net.fortuna.ical4j.model.TimeZone;
 import net.fortuna.ical4j.model.component.VEvent;
-import pretty.schedule.Type.ScheduleOfDay;
+import pretty.schedule.Scheme.ScheduleOfDay;
 
 public class FormatSchedule {
 	final static private String TIME_ZONE = "Erope/Moscow";

@@ -73,4 +73,15 @@ public class Scraper {
         URL apiUrl = new URL(url);
         return mapper.readValue(apiUrl, type);
     }
+
+    public Group getGroup(final String idFacult, final String name)
+            throws JsonParseException, JsonMappingException, IOException {
+        List<Group> groups = getGroups(idFacult);
+        for (var group : groups) {
+            if (group.getName().equals(name)) {
+                return group;
+            }
+        }
+        return null;
+    }
 }

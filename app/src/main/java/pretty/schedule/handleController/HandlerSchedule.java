@@ -63,4 +63,18 @@ public class HandlerSchedule {
         }
         return total;
     }
+
+    public String generateFaculticsJson() throws JsonParseException, JsonMappingException, IOException {
+        return Json.convertString(scraper.getFacultets());
+    }
+
+    public String generateGroupsJson(final String id) throws JsonParseException, JsonMappingException, IOException {
+        return Json.convertString(scraper.getGroups(id));
+    }
+
+    public String generateGroupOfNameJson(final String name)
+            throws JsonParseException, JsonMappingException, IOException {
+        Group group = scraper.getGroupOfName(name);
+        return Json.convertString(group);
+    }
 }

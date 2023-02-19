@@ -84,4 +84,16 @@ public class Scraper {
         }
         return null;
     }
+
+    public Group getGroupOfName(final String name)
+            throws JsonParseException, JsonMappingException, IOException {
+        List<Faculty> facults = getFacultets();
+        for (var facult : facults) {
+            Group group = getGroup(Integer.toString(facult.getId()), name);
+            if (group != null) {
+                return group;
+            }
+        }
+        return null;
+    }
 }

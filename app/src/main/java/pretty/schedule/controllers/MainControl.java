@@ -52,8 +52,8 @@ public class MainControl {
 	public ResponseEntity<Resource> getSch(@PathVariable final String groupId,
 			@RequestParam(required = false) String startDate,
 			@RequestParam(required = false) String endDate) {
-		String scheduleJson = "";
 
+		String scheduleJson = "";
 		Throwable error = null;
 		ErrorResponse eResp = null;
 		ByteArrayResource resource = null;

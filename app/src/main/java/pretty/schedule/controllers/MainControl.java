@@ -158,4 +158,20 @@ public class MainControl {
 		var resource = new ByteArrayResource(facultics.getBytes());
 		return ResponseEntity.ok().contentLength(resource.contentLength()).body(resource);
 	}
+
+	@GetMapping("/groups/{id}")
+	public ResponseEntity<Resource> getGroups(@PathVariable final String groupId) {
+		String groups = null;
+		try {
+			groups = schhandler.generateGroupsJson(groupId);
+		} catch (IOException e) {
+			LOGGER.error(e.toString());
+			var error = new ErrorResponse("error", "IO operation is corrupted");
+			var eResp = new ByteArrayResource(Json.convertString(error).getBytes());
+			return ResponseEntity.badRequest().contentLength(eResp.contentLength()).body(eResp);
+		}
+
+		var resource = new ByteArrayResource(groups.getBytes());
+		return ResponseEntity.ok().contentLength(resource.contentLength()).body(resource);
+	}
 }

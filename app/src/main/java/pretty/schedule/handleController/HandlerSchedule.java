@@ -6,26 +6,22 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.fortuna.ical4j.model.Calendar;
 import pretty.schedule.ical.Ical;
+import pretty.schedule.scheme.Group;
 import pretty.schedule.scheme.ScheduleOfWeek;
 import pretty.schedule.scraper.Scraper;
+import pretty.schedule.util.Json;
 
 public class HandlerSchedule {
-    private String source;
     private int defaultRangeOfSchedule;
+    private Scraper scraper;
 
     public HandlerSchedule(final String source) {
-        this.source = source;
         this.defaultRangeOfSchedule = 3;
-    }
-
-    private String toJson(Object obj) throws JsonProcessingException {
-        return new ObjectMapper().writeValueAsString(obj);
+        this.scraper = new Scraper(source);
     }
 
     private Instant formatStartDate(final String startDate) {
@@ -47,17 +43,15 @@ public class HandlerSchedule {
     public String generateScheduleJson(final String groupId, final String startDate, final String endDate)
             throws JsonParseException, JsonMappingException, IOException {
 
-        Scraper scraper = new Scraper(source);
         List<ScheduleOfWeek> schedules = scraper.getRangeScheduleOfWeek(groupId, formatStartDate(startDate),
                 formatEndDate(endDate));
 
-        return toJson(schedules);
+        return Json.convertString(schedules);
     }
 
     public Calendar generateScheduleIcal(final String groupId, final String startDate, final String endDate)
             throws JsonParseException, JsonMappingException, IOException {
 
-        Scraper scraper = new Scraper(source);
         List<ScheduleOfWeek> schedules = scraper.getRangeScheduleOfWeek(groupId, formatStartDate(startDate),
                 formatEndDate(endDate));
 

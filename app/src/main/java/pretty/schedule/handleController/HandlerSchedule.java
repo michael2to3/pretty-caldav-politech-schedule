@@ -64,8 +64,8 @@ public class HandlerSchedule {
         return total;
     }
 
-    public String generateFaculticsJson() throws JsonParseException, JsonMappingException, IOException {
-        return Json.convertString(scraper.getFacultets());
+    public String generateFacultiesJson() throws JsonParseException, JsonMappingException, IOException {
+        return Json.convertString(scraper.getFaculties());
     }
 
     public String generateGroupsJson(final String id) throws JsonParseException, JsonMappingException, IOException {

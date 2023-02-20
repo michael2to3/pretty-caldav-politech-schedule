@@ -11,8 +11,7 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pretty.schedule.scheme.Faculty;
@@ -27,7 +26,7 @@ public class Scraper {
     }
 
     private List<Instant> getListDateOfRange(final Instant startDate, final Instant endDate) {
-        List<Instant> list = new ArrayList<>();
+        final List<Instant> list = new ArrayList<>();
         Instant current = startDate;
         while (!current.isAfter(endDate)) {
             list.add(current);
@@ -37,47 +36,45 @@ public class Scraper {
     }
 
     public List<ScheduleOfWeek> getRangeScheduleOfWeek(final String numGroup, final Instant startDate,
-            final Instant endDate) throws JsonParseException, JsonMappingException, IOException {
-        ZonedDateTime zone = startDate.atZone(ZoneId.systemDefault());
-        ZonedDateTime prevMonday = zone.with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
-        List<Instant> dates = getListDateOfRange(prevMonday.toInstant(), endDate);
-        List<ScheduleOfWeek> sch = new ArrayList<>();
-        for (Instant date : dates) {
-            sch.add(getScheduleOfWeek(numGroup, date));
+            final Instant endDate)
+            throws IOException {
+        final ZonedDateTime zone = startDate.atZone(ZoneId.systemDefault());
+        final ZonedDateTime prevMonday = zone.with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
+        final List<Instant> dates = getListDateOfRange(prevMonday.toInstant(), endDate);
+        final List<ScheduleOfWeek> schedules = new ArrayList<>();
+        for (final Instant date : dates) {
+            schedules.add(getScheduleOfWeek(numGroup, date));
         }
-        return sch;
-
+        return schedules;
     }
 
-    public ScheduleOfWeek getScheduleOfWeek(final String numGroup, final Instant date)
-            throws JsonParseException, JsonMappingException, IOException {
-        String nurl = FormatUrl.getSchedule(url, numGroup, date);
-        return request(nurl, ScheduleOfWeek.class);
+    public ScheduleOfWeek getScheduleOfWeek(final String numGroup, final Instant date) throws IOException {
+        final String nurl = FormatUrl.getSchedule(url, numGroup, date);
+        return request(nurl, new TypeReference<ScheduleOfWeek>() {
+        });
     }
 
-    public List<Faculty> getFacultets() throws JsonParseException, JsonMappingException, IOException {
-        String nurl = FormatUrl.getFaculties(url);
-        return request(nurl, new ArrayList<Faculty>() {
-        }.getClass());
+    public List<Faculty> getFaculties() throws IOException {
+        final String nurl = FormatUrl.getFaculties(url);
+        return request(nurl, new TypeReference<List<Faculty>>() {
+        });
     }
 
-    public List<Group> getGroups(final String num) throws JsonParseException, JsonMappingException, IOException {
-        String nurl = FormatUrl.getGroups(url, num);
-        return request(nurl, new ArrayList<Group>() {
-        }.getClass());
+    public List<Group> getGroups(final String num) throws IOException {
+        final String nurl = FormatUrl.getGroups(url, num);
+        return request(nurl, new TypeReference<List<Group>>() {
+        });
     }
 
-    private <T> T request(final String url, Class<T> type)
-            throws JsonParseException, JsonMappingException, IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        URL apiUrl = new URL(url);
+    private <T> T request(final String url, final TypeReference<T> type) throws IOException {
+        final ObjectMapper mapper = new ObjectMapper();
+        final URL apiUrl = new URL(url);
         return mapper.readValue(apiUrl, type);
     }
 
-    public Group getGroup(final String idFacult, final String name)
-            throws JsonParseException, JsonMappingException, IOException {
-        List<Group> groups = getGroups(idFacult);
-        for (var group : groups) {
+    public Group getGroup(final String idFacult, final String name) throws IOException {
+        final List<Group> groups = getGroups(idFacult);
+        for (final var group : groups) {
             if (group.getName().equals(name)) {
                 return group;
             }
@@ -85,11 +82,10 @@ public class Scraper {
         return null;
     }
 
-    public Group getGroupOfName(final String name)
-            throws JsonParseException, JsonMappingException, IOException {
-        List<Faculty> facults = getFacultets();
-        for (var facult : facults) {
-            Group group = getGroup(Integer.toString(facult.getId()), name);
+    public Group getGroupOfName(final String name) throws IOException {
+        final List<Faculty> faculties = getFaculties();
+        for (final var faculty : faculties) {
+            final Group group = getGroup(Integer.toString(faculty.getId()), name);
             if (group != null) {
                 return group;
             }

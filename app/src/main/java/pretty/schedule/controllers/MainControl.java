@@ -147,7 +147,7 @@ public class MainControl {
 	public ResponseEntity<Resource> getFacultics() {
 		String facultics = null;
 		try {
-			facultics = schhandler.generateFaculticsJson();
+			facultics = schhandler.generateFacultiesJson();
 		} catch (IOException e) {
 			LOGGER.error(e.toString());
 			var error = new ErrorResponse("error", "IO operation is corrupted");

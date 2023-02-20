@@ -10,8 +10,11 @@ import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pretty.schedule.scheme.Faculty;
@@ -56,8 +59,13 @@ public class Scraper {
 
     public List<Faculty> getFaculties() throws IOException {
         final String nurl = FormatUrl.getFaculties(url);
-        return request(nurl, new TypeReference<List<Faculty>>() {
-        });
+        TypeReference<Map<String, List<Faculty>>> typeRef = new TypeReference<Map<String, List<Faculty>>>() {
+        };
+        final var faculties = request(nurl, typeRef);
+        List<Faculty> f = faculties.values().stream()
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+        return f;
     }
 
     public List<Group> getGroups(final String num) throws IOException {
@@ -69,6 +77,8 @@ public class Scraper {
     private <T> T request(final String url, final TypeReference<T> type) throws IOException {
         final ObjectMapper mapper = new ObjectMapper();
         final URL apiUrl = new URL(url);
+        JsonNode node = mapper.readTree(apiUrl);
+        System.out.println(node + "");
         return mapper.readValue(apiUrl, type);
     }
 

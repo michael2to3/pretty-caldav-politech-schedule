@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pretty.schedule.scheme.Faculty;
@@ -70,15 +69,19 @@ public class Scraper {
 
     public List<Group> getGroups(final String num) throws IOException {
         final String nurl = FormatUrl.getGroups(url, num);
-        return request(nurl, new TypeReference<List<Group>>() {
-        });
+        TypeReference<Map<String, Object>> typeRef = new TypeReference<Map<String, Object>>() {
+        };
+        final ObjectMapper mapper = new ObjectMapper();
+        final var response = request(nurl, typeRef);
+        List<Group> f = ((List<Map<String, Object>>) response.get("groups")).stream()
+                .map(group -> mapper.convertValue(group, Group.class))
+                .collect(Collectors.toList());
+        return f;
     }
 
     private <T> T request(final String url, final TypeReference<T> type) throws IOException {
         final ObjectMapper mapper = new ObjectMapper();
         final URL apiUrl = new URL(url);
-        JsonNode node = mapper.readTree(apiUrl);
-        System.out.println(node + "");
         return mapper.readValue(apiUrl, type);
     }
 

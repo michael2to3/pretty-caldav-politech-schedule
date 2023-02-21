@@ -1,7 +1,6 @@
 package pretty.schedule.scraper;
 
 import java.io.IOException;
-import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.Instant;
@@ -22,6 +21,7 @@ import pretty.schedule.scheme.ScheduleOfWeek;
 
 public class Scraper {
     private final String url;
+    private static final Request request = new Request();
 
     public Scraper(final String url) {
         this.url = url;
@@ -52,7 +52,7 @@ public class Scraper {
 
     public ScheduleOfWeek getScheduleOfWeek(final String numGroup, final Instant date) throws IOException {
         final String nurl = FormatUrl.getSchedule(url, numGroup, date);
-        return new Request().get(nurl, new TypeReference<ScheduleOfWeek>() {
+        return request.get(nurl, new TypeReference<ScheduleOfWeek>() {
         });
     }
 
@@ -60,7 +60,7 @@ public class Scraper {
         final String nurl = FormatUrl.getFaculties(url);
         TypeReference<Map<String, List<Faculty>>> typeRef = new TypeReference<Map<String, List<Faculty>>>() {
         };
-        final var faculties = new Request().get(nurl, typeRef);
+        final var faculties = request.get(nurl, typeRef);
         List<Faculty> f = faculties.values().stream()
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
@@ -72,7 +72,7 @@ public class Scraper {
         TypeReference<Map<String, Object>> typeRef = new TypeReference<Map<String, Object>>() {
         };
         final ObjectMapper mapper = new ObjectMapper();
-        final var response = new Request().get(nurl, typeRef);
+        final var response = request.get(nurl, typeRef);
         final var f = ((List<Map<String, Object>>) response.get("groups")).stream()
                 .map(group -> mapper.convertValue(group, Group.class))
                 .collect(Collectors.toList());

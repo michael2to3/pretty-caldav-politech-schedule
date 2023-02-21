@@ -34,11 +34,11 @@ public class MainControl {
 	private Environment env;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MainControl.class);
-	private HandlerSchedule schhandler;
+	private HandlerSchedule handler;
 
 	@PostConstruct
 	public void init() {
-		schhandler = new HandlerSchedule(env.getProperty("application.source"));
+		handler = new HandlerSchedule(env.getProperty("application.source"));
 	}
 
 	@GetMapping("/source/")
@@ -58,7 +58,7 @@ public class MainControl {
 		ErrorResponse eResp = null;
 		ByteArrayResource resource = null;
 		try {
-			scheduleJson = schhandler.generateScheduleJson(groupId, startDate, endDate);
+			scheduleJson = handler.generateScheduleJson(groupId, startDate, endDate);
 		} catch (JsonParseException e) {
 			error = e;
 			eResp = new ErrorResponse("error", "JSON is not valid");
@@ -104,7 +104,7 @@ public class MainControl {
 		ErrorResponse eResp = null;
 		Resource resource = null;
 		try {
-			Calendar calendar = schhandler.generateScheduleIcal(groupId, startDate, endDate);
+			Calendar calendar = handler.generateScheduleIcal(groupId, startDate, endDate);
 
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			var outputter = new CalendarOutputter();
@@ -147,7 +147,7 @@ public class MainControl {
 	public ResponseEntity<Resource> getFacultics() {
 		String facultics = null;
 		try {
-			facultics = schhandler.generateFacultiesJson();
+			facultics = handler.generateFacultiesJson();
 		} catch (IOException e) {
 			LOGGER.error(e.toString());
 			var error = new ErrorResponse("error", "IO operation is corrupted");
@@ -163,7 +163,24 @@ public class MainControl {
 	public ResponseEntity<Resource> getGroups(@PathVariable final String groupId) {
 		String groups = null;
 		try {
-			groups = schhandler.generateGroupsJson(groupId);
+			groups = handler.generateGroupsJson(groupId);
+		} catch (IOException e) {
+			LOGGER.error(e.toString());
+			var error = new ErrorResponse("error", "IO operation is corrupted");
+			var eResp = new ByteArrayResource(Json.convertString(error).getBytes());
+			return ResponseEntity.badRequest().contentLength(eResp.contentLength()).body(eResp);
+		}
+
+		var resource = new ByteArrayResource(groups.getBytes());
+		return ResponseEntity.ok().contentLength(resource.contentLength()).body(resource);
+	}
+
+	@GetMapping("/group/{nameOfFacult}/{nameOfGroup}")
+	public ResponseEntity<Resource> getGroupOfName(@PathVariable final String nameOfFacult,
+			@PathVariable final String nameOfGroup) {
+		String groups = null;
+		try {
+			groups = handler.generateGroupOfNameJson(nameOfFacult + "/" + nameOfGroup);
 		} catch (IOException e) {
 			LOGGER.error(e.toString());
 			var error = new ErrorResponse("error", "IO operation is corrupted");
@@ -176,11 +193,13 @@ public class MainControl {
 	}
 
 	@GetMapping("/group/sch/{nameOfFacult}/{nameOfGroup}")
-	public ResponseEntity<Resource> getGroupOfName(@PathVariable final String nameOfFacult,
-			@PathVariable final String nameOfGroup) {
-		String groups = null;
+	public ResponseEntity<Resource> getScheduleOfName(@PathVariable final String nameOfFacult,
+			@PathVariable final String nameOfGroup,
+			@RequestParam(required = false) String start,
+			@RequestParam(required = false) String end) {
+		String schedules = null;
 		try {
-			groups = schhandler.generateGroupOfNameJson(nameOfFacult + "/" + nameOfGroup);
+			schedules = handler.generateScheduleOfNameJson(nameOfFacult + "/" + nameOfGroup, start, end);
 		} catch (IOException e) {
 			LOGGER.error(e.toString());
 			var error = new ErrorResponse("error", "IO operation is corrupted");
@@ -188,7 +207,7 @@ public class MainControl {
 			return ResponseEntity.badRequest().contentLength(eResp.contentLength()).body(eResp);
 		}
 
-		var resource = new ByteArrayResource(groups.getBytes());
+		var resource = new ByteArrayResource(schedules.getBytes());
 		return ResponseEntity.ok().contentLength(resource.contentLength()).body(resource);
 	}
 

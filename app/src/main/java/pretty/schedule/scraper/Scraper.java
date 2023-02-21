@@ -52,7 +52,7 @@ public class Scraper {
 
     public ScheduleOfWeek getScheduleOfWeek(final String numGroup, final Instant date) throws IOException {
         final String nurl = FormatUrl.getSchedule(url, numGroup, date);
-        return request(nurl, new TypeReference<ScheduleOfWeek>() {
+        return new Request().get(nurl, new TypeReference<ScheduleOfWeek>() {
         });
     }
 
@@ -60,7 +60,7 @@ public class Scraper {
         final String nurl = FormatUrl.getFaculties(url);
         TypeReference<Map<String, List<Faculty>>> typeRef = new TypeReference<Map<String, List<Faculty>>>() {
         };
-        final var faculties = request(nurl, typeRef);
+        final var faculties = new Request().get(nurl, typeRef);
         List<Faculty> f = faculties.values().stream()
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
@@ -72,17 +72,11 @@ public class Scraper {
         TypeReference<Map<String, Object>> typeRef = new TypeReference<Map<String, Object>>() {
         };
         final ObjectMapper mapper = new ObjectMapper();
-        final var response = request(nurl, typeRef);
-        List<Group> f = ((List<Map<String, Object>>) response.get("groups")).stream()
+        final var response = new Request().get(nurl, typeRef);
+        final var f = ((List<Map<String, Object>>) response.get("groups")).stream()
                 .map(group -> mapper.convertValue(group, Group.class))
                 .collect(Collectors.toList());
         return f;
-    }
-
-    private <T> T request(final String url, final TypeReference<T> type) throws IOException {
-        final ObjectMapper mapper = new ObjectMapper();
-        final URL apiUrl = new URL(url);
-        return mapper.readValue(apiUrl, type);
     }
 
     public Group getGroup(final String idFacult, final String name) throws IOException {
@@ -104,5 +98,11 @@ public class Scraper {
             }
         }
         return null;
+    }
+
+    public List<ScheduleOfWeek> getRangeScheduleOfWeekOfName(final String name, final Instant start, final Instant end)
+            throws IOException {
+        final Group group = getGroupOfName(name);
+        return getRangeScheduleOfWeek(Integer.toString(group.getId()), start, end);
     }
 }

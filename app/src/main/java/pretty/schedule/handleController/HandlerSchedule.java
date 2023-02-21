@@ -77,4 +77,11 @@ public class HandlerSchedule {
         Group group = scraper.getGroupOfName(name);
         return Json.convertString(group);
     }
+
+    public String generateScheduleOfNameJson(final String name, final String start, final String end)
+            throws IOException {
+        List<ScheduleOfWeek> schedules;
+        schedules = scraper.getRangeScheduleOfWeekOfName(name, formatStartDate(start), formatEndDate(end));
+        return Json.convertString(schedules);
+    }
 }

@@ -20,7 +20,7 @@ public class HandlerSchedule {
     private Scraper scraper;
 
     public HandlerSchedule(final String source) {
-        this.defaultRangeOfSchedule = 3;
+        this.defaultRangeOfSchedule = 1;
         this.scraper = new Scraper(source);
     }
 

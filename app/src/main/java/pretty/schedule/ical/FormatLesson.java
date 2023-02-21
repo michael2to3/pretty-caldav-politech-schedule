@@ -18,14 +18,10 @@ import net.fortuna.ical4j.model.property.Summary;
 import net.fortuna.ical4j.model.property.Uid;
 import pretty.schedule.scheme.Lesson;
 
-public class FormatLesson {
+public class FormatLesson extends Lesson {
     final static private String TIME_ZONE = "Erope/Moscow";
     private static final java.util.TimeZone TZ = TimeZone.getTimeZone(TIME_ZONE);
-    private final Lesson lesson;
 
-    public FormatLesson(final Lesson lesson) {
-        this.lesson = lesson;
-    }
 
     private Calendar generateCal() {
         TimeZoneRegistry registry = TimeZoneRegistryFactory.getInstance().createRegistry();
@@ -40,7 +36,7 @@ public class FormatLesson {
 
     public Calendar getStartDate() {
         java.util.Calendar date = generateCal();
-        var time = new FormatTime(lesson.getTimeStart());
+        FormatTime time = new FormatTime(getTimeStart());
         date.setTimeZone(TZ);
         date.set(java.util.Calendar.HOUR, time.getHour());
         date.set(java.util.Calendar.MINUTE, time.getMinute());
@@ -49,7 +45,7 @@ public class FormatLesson {
 
     public Calendar getEndDate() {
         java.util.Calendar date = generateCal();
-        var time = new FormatTime(lesson.getTimeEnd());
+        var time = new FormatTime(getTimeEnd());
         date.setTimeZone(TZ);
         date.set(java.util.Calendar.HOUR, time.getHour());
         date.set(java.util.Calendar.MINUTE, time.getMinute());
@@ -67,17 +63,17 @@ public class FormatLesson {
         end.set(java.util.Calendar.MONTH, month);
         end.set(java.util.Calendar.DAY_OF_MONTH, day);
 
-        var name = lesson.getSubject();
+        var name = getSubject();
         var event = new VEvent(new DateTime(start.getTime()), new DateTime(end.getTime()), name);
 
         StringBuilder desc = new StringBuilder();
-        desc.append(lesson.getAuditories());
+        desc.append(getAuditories());
 
         Uid uid = new Uid(UUID.randomUUID().toString() + System.currentTimeMillis());
         event.getProperties().add(uid);
         event.getProperties().add(new Description(desc.toString()));
-        event.getProperties().add(new Location(lesson.getAuditories().toString()));
-        event.getProperties().add(new Summary(lesson.getSubjectShort()));
+        event.getProperties().add(new Location(getAuditories().toString()));
+        event.getProperties().add(new Summary(getSubjectShort()));
         event.getProperties().add(new DtStamp(new DateTime()));
         event.getProperties().add(new DtStart(new DateTime(start.getTime())));
         event.getProperties().add(new DtEnd(new DateTime(end.getTime())));

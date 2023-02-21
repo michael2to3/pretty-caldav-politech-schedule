@@ -53,7 +53,7 @@ public class FormatSchedule {
 		int month = getMonth();
 		int day = getDayOfMonth();
 		for (var lesson : schedule.getLessons()) {
-			var formatLesson = new FormatLesson(lesson);
+			FormatLesson formatLesson = (FormatLesson) lesson;
 			list.add(formatLesson.generateEvent(year, month, day));
 		}
 		return list;

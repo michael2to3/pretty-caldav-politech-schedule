@@ -84,4 +84,18 @@ public class HandlerSchedule {
         schedules = scraper.getRangeScheduleOfWeekOfName(name, formatStartDate(start), formatEndDate(end));
         return Json.convertString(schedules);
     }
+
+    public Calendar generateScheduleOfNameGroupIcal(final String name, final String start, final String end) // fuck
+            throws IOException {
+        List<ScheduleOfWeek> schedules = scraper.getRangeScheduleOfWeek(name, formatStartDate(start),
+                formatEndDate(end));
+
+        Calendar total = new Ical("schedule", schedules.get(0)).getCalendar();
+        for (var schedule : schedules) {
+            total = schedule.getDays().stream()
+                    .map(sch -> new Ical("schedule", sch).getCalendar())
+                    .reduce(total, Ical::merge);
+        }
+        return total;
+    }
 }

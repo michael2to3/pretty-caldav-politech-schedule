@@ -211,4 +211,53 @@ public class MainControl {
 		return ResponseEntity.ok().contentLength(resource.contentLength()).body(resource);
 	}
 
+	@GetMapping(value = "/group/sch/{nameOfFacult}/{nameOfGroup}/ics", produces = "text/calendar")
+	public ResponseEntity<Resource> getScheduleOfNameIcs(
+			@PathVariable final String groupId,
+			@RequestParam(required = false) String startDate,
+			@RequestParam(required = false) String endDate) throws IOException {
+		Throwable error = null;
+		ErrorResponse eResp = null;
+		Resource resource = null;
+		try {
+			Calendar calendar = handler.generateScheduleOfNameGroupIcal(groupId, startDate, endDate);
+
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			var outputter = new CalendarOutputter();
+			outputter.output(calendar, baos);
+			resource = new ByteArrayResource(baos.toByteArray());
+		} catch (JsonParseException e) {
+			error = e;
+			eResp = new ErrorResponse("error", "JSON is not valid");
+		} catch (JsonMappingException e) {
+			error = e;
+			eResp = new ErrorResponse("error", "JSON mapping is corrupted");
+		} catch (IOException e) {
+			error = e;
+			eResp = new ErrorResponse("error", "IO operation is corrupted");
+		} finally {
+			if (error != null) {
+				LOGGER.error(error.toString());
+				resource = new ByteArrayResource(Json.convertString(eResp).getBytes());
+			}
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.CONTENT_TYPE, "text/calendar");
+		headers.add(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate");
+		headers.add(HttpHeaders.PRAGMA, "no-cache");
+		headers.add(HttpHeaders.EXPIRES, "0");
+
+		if (error == null) {
+			return ResponseEntity.ok()
+					.headers(headers)
+					.contentLength(resource.contentLength())
+					.body(resource);
+
+		} else {
+			return ResponseEntity.badRequest().headers(headers).body(resource);
+		}
+	}
+
+
 }

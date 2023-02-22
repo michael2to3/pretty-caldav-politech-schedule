@@ -26,6 +26,18 @@ pretty-caldav-politech-schedule is a Java project that parses college schedule s
 - Modify the configuration file with your desired settings.
 - Run the project with the java -jar pretty-webdav-politech-schedule.jar command.
 
+### Spring Mapping
+
+| HTTP Method | URL | Source | Description |
+| --- | --- | --- | --- |
+| GET | /source/ | application.source | Get variable from application.source |
+| GET | /sch/{groupId} | HandlerSchedule.generateScheduleJson | Get schedule in JSON format for the specified group ID, start date, and end date |
+| GET | /sch/{groupId}/ics | HandlerSchedule.generateScheduleIcal | Get schedule in iCalendar format for the specified group ID, start date, and end date |
+| GET | /facultics/ | HandlerSchedule.generateFacultiesJson | Get faculties in JSON format |
+| GET | /groups/{id} | HandlerSchedule.generateGroupsJson | Get groups in JSON format for the specified group ID |
+| GET | /group/{nameOfFacult}/{nameOfGroup} | HandlerSchedule.generateGroupJson | Get group in JSON format for the specified faculty name and group name |
+
+
 ## License
 
 This project is released under the GNU 3.0 license. For more information, see the LICENSE file.

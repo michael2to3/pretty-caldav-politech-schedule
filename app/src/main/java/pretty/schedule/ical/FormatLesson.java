@@ -22,16 +22,13 @@ import pretty.schedule.scheme.Lesson;
 import pretty.schedule.scheme.Teacher;
 
 public class FormatLesson extends Lesson {
-  final static private String TIME_ZONE = "Erope/Moscow";
-  private static final java.util.TimeZone TZ = TimeZone.getTimeZone(TIME_ZONE);
-
   public FormatLesson(final Lesson lesson) {
     super(lesson);
   }
 
-  private Calendar generateCal() {
+  private Calendar getCalendar() {
     TimeZoneRegistry registry = TimeZoneRegistryFactory.getInstance().createRegistry();
-    TimeZone timezone = registry.getTimeZone(TIME_ZONE);
+    TimeZone timezone = registry.getTimeZone(FactoryTimeZone.getTimeZone());
 
     java.util.Calendar date = new GregorianCalendar();
     date.setTimeZone(timezone);
@@ -40,9 +37,9 @@ public class FormatLesson extends Lesson {
   }
 
   public Calendar getDate(String time, final int day, final int month, final int year) {
-    java.util.Calendar date = generateCal();
+    java.util.Calendar date = getCalendar();
     FormatTime formatTime = new FormatTime(time);
-    date.setTimeZone(TZ);
+    date.setTimeZone(FactoryTimeZone.getTz());
     date.set(java.util.Calendar.MINUTE, formatTime.getMinute());
     date.set(java.util.Calendar.HOUR_OF_DAY, formatTime.getHour());
     date.set(java.util.Calendar.DAY_OF_MONTH, day);

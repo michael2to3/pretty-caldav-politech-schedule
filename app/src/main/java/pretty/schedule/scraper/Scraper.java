@@ -100,7 +100,7 @@ public class Scraper {
         return null;
     }
 
-    public List<ScheduleOfWeek> getRangeScheduleOfWeekOfName(final String name, final Instant start, final Instant end)
+    public List<ScheduleOfWeek> getRangeScheduleOfName(final String name, final Instant start, final Instant end)
             throws IOException {
         final Group group = getGroupOfName(name);
         return getRangeScheduleOfWeek(Integer.toString(group.getId()), start, end);

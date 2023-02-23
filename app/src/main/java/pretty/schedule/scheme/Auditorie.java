@@ -5,6 +5,11 @@ public class Auditorie {
     private String name;
     private Building building;
 
+    @Override
+    public String toString() {
+        return String.format("%s, %s", name, building);
+    }
+
     public int getId() {
         return id;
     }

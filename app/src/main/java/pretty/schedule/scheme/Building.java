@@ -6,6 +6,11 @@ public class Building {
     private String abbr;
     private String address;
 
+    @Override
+    public String toString() {
+        return String.format("%s, %s, %s", name, abbr, address);
+    }
+
     public int getId() {
         return id;
     }

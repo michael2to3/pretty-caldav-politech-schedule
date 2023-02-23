@@ -69,7 +69,6 @@ public class FormatLesson extends Lesson {
         var name = getSubject();
         var event = new VEvent(new DateTime(start.getTime()), new DateTime(end.getTime()), name);
 
-
         Uid uid = new Uid(UUID.randomUUID().toString() + System.currentTimeMillis());
         event.getProperties().add(uid);
         event.getProperties().add(getDescription());

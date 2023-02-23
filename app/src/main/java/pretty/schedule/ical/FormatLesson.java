@@ -1,19 +1,25 @@
 package pretty.schedule.ical;
 
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
 import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.TimeZone;
 import net.fortuna.ical4j.model.TimeZoneRegistry;
 import net.fortuna.ical4j.model.TimeZoneRegistryFactory;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.Description;
-import net.fortuna.ical4j.model.property.DtEnd;
 import net.fortuna.ical4j.model.property.DtStamp;
-import net.fortuna.ical4j.model.property.DtStart;
 import net.fortuna.ical4j.model.property.Location;
 import net.fortuna.ical4j.model.property.Summary;
+import net.fortuna.ical4j.model.property.Uid;
+import pretty.schedule.scheme.Auditorie;
+import pretty.schedule.scheme.Group;
 import pretty.schedule.scheme.Lesson;
+import pretty.schedule.scheme.Teacher;
 
 public class FormatLesson extends Lesson {
   final static private String TIME_ZONE = "Erope/Moscow";
@@ -33,21 +39,15 @@ public class FormatLesson extends Lesson {
     return date;
   }
 
-  public Calendar getStartDate() {
+  public Calendar getDate(String time, final int day, final int month, final int year) {
     java.util.Calendar date = generateCal();
-    FormatTime time = new FormatTime(getTimeStart());
+    FormatTime formatTime = new FormatTime(time);
     date.setTimeZone(TZ);
-    date.set(java.util.Calendar.HOUR_OF_DAY, time.getHour());
-    date.set(java.util.Calendar.MINUTE, time.getMinute());
-    return date;
-  }
-
-  public Calendar getEndDate() {
-    java.util.Calendar date = generateCal();
-    var time = new FormatTime(getTimeEnd());
-    date.setTimeZone(TZ);
-    date.set(java.util.Calendar.HOUR_OF_DAY, time.getHour());
-    date.set(java.util.Calendar.MINUTE, time.getMinute());
+    date.set(java.util.Calendar.MINUTE, formatTime.getMinute());
+    date.set(java.util.Calendar.HOUR_OF_DAY, formatTime.getHour());
+    date.set(java.util.Calendar.DAY_OF_MONTH, day);
+    date.set(java.util.Calendar.MONTH, month - 1);
+    date.set(java.util.Calendar.YEAR, year);
     return date;
   }
 

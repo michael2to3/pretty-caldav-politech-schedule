@@ -27,7 +27,8 @@ import pretty.schedule.util.Json;
 @RestController
 @RequestMapping("/v1/")
 public class MainControl {
-  @Autowired private Environment env;
+  @Autowired
+  private Environment env;
   private static final Logger LOGGER = LoggerFactory.getLogger(MainControl.class);
   private HandlerSchedule handler;
   private HttpHeaders headers;
@@ -142,8 +143,7 @@ public class MainControl {
       @RequestParam(required = false) String endDate) {
     String groups = null;
     try {
-      groups =
-          handler.generateScheduleOfNameJson(nameOfFacult + "/" + nameOfGroup, startDate, endDate);
+      groups = handler.generateScheduleOfNameJson(nameOfFacult + "/" + nameOfGroup, startDate, endDate);
     } catch (IOException e) {
       LOGGER.error(e.toString());
       var error = new ErrorResponse("error", "IO operation is corrupted");

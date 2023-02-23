@@ -1,7 +1,10 @@
 package pretty.schedule.scheme;
 
+/** Error thrown when a schedule is invalid. */
 public class ErrorResponse {
+  /** Error code. */
   private String status;
+  /** Error message. */
   private String message;
 
   public ErrorResponse(final String status, final String message) {

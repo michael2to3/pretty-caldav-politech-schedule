@@ -1,13 +1,24 @@
 package pretty.schedule.scheme;
 
+/** Represents a study group */
 public class Group {
+  /** The union idenitfier of the group */
   private int id;
+  /** The name of the group */
   private String name;
+  /** The level of the group(e.g., bachelors, masters, etc.) */
   private int level;
+  /** The type of the group(e.g., full-time, part-time, etc.) */
   private String type;
+  /** The kind of the group(e.g., academic, non-academic, etc.) */
   private int kind;
+  /**
+   * The specializations of the group(e.g., computer science, mathematics, etc.)
+   */
   private String spec;
+  /** The year of the group */
   private int year;
+  /** The faculty to which the group belongs. */
   private Faculty faculty;
 
   public int getId() {

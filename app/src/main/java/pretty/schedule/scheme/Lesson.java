@@ -4,24 +4,38 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/** A class representing a single lesson in the schedule. */
 public class Lesson {
+  /** The subject of the lesson. */
   private String subject;
+  /** The abbreviated name of the lesson. */
   @JsonProperty("subject_short")
   private String subjectShort;
+  /** The type of the lesson(e.g. "Lecture", "Lab", etc.). */
   private int type;
+  /** Additional information about the lesson. */
   @JsonProperty("additional_info")
   private String additionalInfo;
+  /** The start time of the lesson in HH:mm format */
   @JsonProperty("time_start")
   private String timeStart;
+  /** The end time of the lesson in HH:mm format */
   @JsonProperty("time_end")
   private String timeEnd;
+  /** The parity of the lesson(even, odd, etc.). */
   private int parity;
+  /** The type of the educational object */
   private TypeObj typeObj;
+  /** The list of groups attending the lesson. */
   private List<Group> groups;
+  /** The list of teachers conducting the lesson. */
   private List<Teacher> teachers;
+  /** The list of auditoriums where are the lesson takes place. */
   private List<Auditorie> auditories;
+  /** The URL of the webinar for the lesson(if applicable). */
   @JsonProperty("webinar_url")
   private String webinarUrl;
+  /** The URL of the lms for the lesson(if applicable). */
   @JsonProperty("lms_url")
   private String lmsUrl;
 

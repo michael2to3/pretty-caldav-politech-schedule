@@ -1,8 +1,12 @@
 package pretty.schedule.scheme;
 
+/** Represents the type of an object, such as a lesson. */
 public class TypeObj {
+  /** The ID of the type object. */
   private int id;
+  /** The name of the type object. */
   private String name;
+  /** The abbreviation of the type object. */
   private String abbr;
 
   @Override

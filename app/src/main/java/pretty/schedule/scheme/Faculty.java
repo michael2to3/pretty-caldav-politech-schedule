@@ -1,8 +1,12 @@
 package pretty.schedule.scheme;
 
+/** Represents a faculty in a univeristy. */
 public class Faculty {
+  /** The ID of the faculty. */
   private int id;
+  /** The name of the faculty. */
   private String name;
+  /** The department of the faculty. */
   private String abbr;
 
   public int getId() {

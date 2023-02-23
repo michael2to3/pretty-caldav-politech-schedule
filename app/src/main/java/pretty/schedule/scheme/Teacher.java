@@ -2,14 +2,27 @@ package pretty.schedule.scheme;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/** Represents a teacher with its relavant information. */
 public class Teacher {
+  /** The ID of the teacher. */
   private int id;
+  /** The OID of the teacher. */
   private int oid;
-  @JsonProperty("full_name") private String fullName;
-  @JsonProperty("first_name") private String firstName;
-  @JsonProperty("middle_name") private String middleName;
-  @JsonProperty("last_name") private String lastName;
+  /** The full name of the teacher. */
+  @JsonProperty("full_name")
+  private String fullName;
+  /** The first name of the teacher. */
+  @JsonProperty("first_name")
+  private String firstName;
+  /** The middle name of the teacher. */
+  @JsonProperty("middle_name")
+  private String middleName;
+  /** The last name of the teacher. */
+  @JsonProperty("last_name")
+  private String lastName;
+  /** The grade of the teacher. */
   private String grade;
+  /** The chait of the teacher. */
   private String chair;
 
   public int getId() {

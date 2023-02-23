@@ -2,9 +2,13 @@ package pretty.schedule.scheme;
 
 import java.util.List;
 
+/** Represents a schedule for a singly day. */
 public class ScheduleOfDay {
+  /** The weekday of the schedule, where 1 is Monday and 7 is Sunday. */
   private int weekday;
+  /** The date of the schedule. in the format yyyy-mm-dd. */
   private String date;
+  /** The list of lessons scheduled for this day. */
   private List<Lesson> lessons;
 
   public int getWeekday() {

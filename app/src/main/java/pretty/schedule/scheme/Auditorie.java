@@ -1,8 +1,12 @@
 package pretty.schedule.scheme;
 
+/** Repsents an auditorium with its ID, name, and building information. */
 public class Auditorie {
+  /** The ID of the auditorium. */
   private int id;
+  /** The name of the auditorium. */
   private String name;
+  /** The building where the auditorium is located. */
   private Building building;
 
   @Override

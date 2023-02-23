@@ -1,9 +1,14 @@
 package pretty.schedule.scheme;
 
+/** Repsents a building on campus. */
 public class Building {
+  /** The ID of the building. */
   private int id;
+  /** The name of the building. */
   private String name;
+  /** The full addres of the building. */
   private String abbr;
+  /** The short address of the building. */
   private String address;
 
   @Override

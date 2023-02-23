@@ -213,14 +213,15 @@ public class MainControl {
 
 	@GetMapping(value = "/group/sch/{nameOfFacult}/{nameOfGroup}/ics", produces = "text/calendar")
 	public ResponseEntity<Resource> getScheduleOfNameIcs(
-			@PathVariable final String groupId,
+			@PathVariable final String nameOfFacult,
+			@PathVariable final String nameOfGroup,
 			@RequestParam(required = false) String startDate,
 			@RequestParam(required = false) String endDate) throws IOException {
 		Throwable error = null;
 		ErrorResponse eResp = null;
 		Resource resource = null;
 		try {
-			Calendar calendar = handler.generateScheduleOfNameGroupIcal(groupId, startDate, endDate);
+			Calendar calendar = handler.generateScheduleOfNameGroupIcal(nameOfFacult + "/" + nameOfGroup, startDate, endDate);
 
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			var outputter = new CalendarOutputter();
@@ -258,6 +259,5 @@ public class MainControl {
 			return ResponseEntity.badRequest().headers(headers).body(resource);
 		}
 	}
-
 
 }

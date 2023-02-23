@@ -25,6 +25,25 @@ public class Lesson {
     @JsonProperty("lms_url")
     private String lmsUrl;
 
+    public Lesson(final Lesson lesson) {
+        this.subject = lesson.subject;
+        this.subjectShort = lesson.subjectShort;
+        this.type = lesson.type;
+        this.additionalInfo = lesson.additionalInfo;
+        this.timeStart = lesson.timeStart;
+        this.timeEnd = lesson.timeEnd;
+        this.parity = lesson.parity;
+        this.typeObj = lesson.typeObj;
+        this.groups = lesson.groups;
+        this.teachers = lesson.teachers;
+        this.auditories = lesson.auditories;
+        this.webinarUrl = lesson.webinarUrl;
+        this.lmsUrl = lesson.lmsUrl;
+    }
+
+    public Lesson() {
+    }
+
     public String getSubjectShort() {
         return subjectShort;
     }

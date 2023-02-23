@@ -22,6 +22,9 @@ public class FormatLesson extends Lesson {
     final static private String TIME_ZONE = "Erope/Moscow";
     private static final java.util.TimeZone TZ = TimeZone.getTimeZone(TIME_ZONE);
 
+    public FormatLesson(final Lesson lesson) {
+        super(lesson);
+    }
 
     private Calendar generateCal() {
         TimeZoneRegistry registry = TimeZoneRegistryFactory.getInstance().createRegistry();

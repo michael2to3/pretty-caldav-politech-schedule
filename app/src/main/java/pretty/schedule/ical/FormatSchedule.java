@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.fortuna.ical4j.model.component.VEvent;
+import pretty.schedule.scheme.Lesson;
 import pretty.schedule.scheme.ScheduleOfDay;
 
 public class FormatSchedule {
@@ -52,8 +53,8 @@ public class FormatSchedule {
 		int year = getYear();
 		int month = getMonth();
 		int day = getDayOfMonth();
-		for (var lesson : schedule.getLessons()) {
-			FormatLesson formatLesson = (FormatLesson) lesson;
+		for (Lesson lesson : schedule.getLessons()) {
+			FormatLesson formatLesson = new FormatLesson(lesson);
 			list.add(formatLesson.generateEvent(year, month, day));
 		}
 		return list;

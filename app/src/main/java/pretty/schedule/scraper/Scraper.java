@@ -54,28 +54,29 @@ public class Scraper {
   public ScheduleOfWeek getScheduleOfWeek(final String numGroup, final Instant date)
       throws IOException {
     final String nurl = FormatUrl.getSchedule(url, numGroup, date);
-    return request.get(nurl, new TypeReference<ScheduleOfWeek>() {});
+    return request.get(nurl, new TypeReference<ScheduleOfWeek>() {
+    });
   }
 
   public List<Faculty> getFaculties() throws IOException {
     final String nurl = FormatUrl.getFaculties(url);
-    TypeReference<Map<String, List<Faculty>>> typeRef =
-        new TypeReference<Map<String, List<Faculty>>>() {};
+    TypeReference<Map<String, List<Faculty>>> typeRef = new TypeReference<Map<String, List<Faculty>>>() {
+    };
     final var faculties = request.get(nurl, typeRef);
-    List<Faculty> f =
-        faculties.values().stream().flatMap(List::stream).collect(Collectors.toList());
+    List<Faculty> f = faculties.values().stream().flatMap(List::stream).collect(Collectors.toList());
     return f;
   }
 
   public List<Group> getGroups(final String num) throws IOException {
     final String nurl = FormatUrl.getGroups(url, num);
-    TypeReference<Map<String, Object>> typeRef = new TypeReference<Map<String, Object>>() {};
+    TypeReference<Map<String, Object>> typeRef = new TypeReference<Map<String, Object>>() {
+    };
     final ObjectMapper mapper = new ObjectMapper();
     final var response = request.get(nurl, typeRef);
     final var f = ((List<Map<String, Object>>) response.get("groups"))
-                      .stream()
-                      .map(group -> mapper.convertValue(group, Group.class))
-                      .collect(Collectors.toList());
+        .stream()
+        .map(group -> mapper.convertValue(group, Group.class))
+        .collect(Collectors.toList());
     return f;
   }
 
@@ -103,6 +104,7 @@ public class Scraper {
   public List<ScheduleOfWeek> getRangeScheduleOfName(
       final String name, final Instant start, final Instant end) throws IOException {
     final Group group = getGroupOfName(name);
-    return getRangeScheduleOfWeek(Integer.toString(group.getId()), start, end);
+    List<ScheduleOfWeek> list = getRangeScheduleOfWeek(Integer.toString(group.getId()), start, end);
+    return list;
   }
 }

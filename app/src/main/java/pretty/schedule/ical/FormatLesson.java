@@ -41,7 +41,7 @@ public class FormatLesson extends Lesson {
         java.util.Calendar date = generateCal();
         FormatTime time = new FormatTime(getTimeStart());
         date.setTimeZone(TZ);
-        date.set(java.util.Calendar.HOUR, time.getHour());
+        date.set(java.util.Calendar.HOUR_OF_DAY, time.getHour());
         date.set(java.util.Calendar.MINUTE, time.getMinute());
         return date;
     }
@@ -50,7 +50,7 @@ public class FormatLesson extends Lesson {
         java.util.Calendar date = generateCal();
         var time = new FormatTime(getTimeEnd());
         date.setTimeZone(TZ);
-        date.set(java.util.Calendar.HOUR, time.getHour());
+        date.set(java.util.Calendar.HOUR_OF_DAY, time.getHour());
         date.set(java.util.Calendar.MINUTE, time.getMinute());
         return date;
     }

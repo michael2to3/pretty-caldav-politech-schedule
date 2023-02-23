@@ -1,4 +1,4 @@
-# pretty-caldav-politech-schedule
+# Pretty-caldav-politech-schedule
 [![Build Status](https://img.shields.io/travis/michael2to3/pretty-caldav-politech-schedule?style=flat-square)](https://travis-ci.com/michael2to3/pretty-caldav-politech-schedule)
 [![Coverage Status](https://img.shields.io/codecov/c/github/michael2to3/pretty-caldav-politech-schedule?style=flat-square)](https://codecov.io/gh/michael2to3/pretty-caldav-politech-schedule)
 [![License](https://img.shields.io/github/license/michael2to3/pretty-caldav-politech-schedule?style=flat-square)](https://github.com/michael2to3/pretty-caldav-politech-schedule/blob/main/LICENSE)
@@ -7,7 +7,7 @@
 [![Spring Boot](https://img.shields.io/badge/Spring-Boot-green?style=flat-square)](https://spring.io/projects/spring-boot)
 [![Gradle](https://img.shields.io/badge/Gradle-blue?style=flat-square)](https://gradle.org/)
 
-pretty-caldav-politech-schedule is a Java project that parses college schedule site APIs and streams WebDAV with pretty descriptions and titles for calendar events. It is released under the GNU 3.0 license.
+Pretty-caldav-politech-schedule is a Java project that parses college schedule site APIs and streams WebDAV with pretty descriptions and titles for calendar events. It is released under the GNU 3.0 license.
 
 ## Features
 

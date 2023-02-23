@@ -1,5 +1,5 @@
 # Pretty-caldav-politech-schedule
-[![Build Status](https://img.shields.io/travis/michael2to3/pretty-caldav-politech-schedule?style=flat-square)](https://travis-ci.com/michael2to3/pretty-caldav-politech-schedule)
+[![Build Status](/github/actions/workflow/status/michael2to3/pretty-caldav-politech-schedule/build+)](https://travis-ci.com/michael2to3/pretty-caldav-politech-schedule)
 [![Coverage Status](https://img.shields.io/codecov/c/github/michael2to3/pretty-caldav-politech-schedule?style=flat-square)](https://codecov.io/gh/michael2to3/pretty-caldav-politech-schedule)
 [![License](https://img.shields.io/github/license/michael2to3/pretty-caldav-politech-schedule?style=flat-square)](https://github.com/michael2to3/pretty-caldav-politech-schedule/blob/main/LICENSE)
 [![Docker Image Size](https://img.shields.io/docker/image-size/dockeronfullpc/pretty-caldav-politech-schedule?style=flat-square)](https://hub.docker.com/r/dockeronfullpc/pretty-caldav-politech-schedule)

@@ -1,5 +1,11 @@
-FROM openjdk:11
+FROM openjdk:17-jdk-alpine
 WORKDIR /app
-COPY build/libs/app.jar /app/app.jar
+
+COPY gradlew settings.gradle ./
+COPY gradle gradle
+
+COPY app /app
+RUN ./gradlew build --no-daemon
+
 EXPOSE 8080
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "build/libs/app.jar"]

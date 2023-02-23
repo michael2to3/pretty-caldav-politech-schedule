@@ -69,12 +69,10 @@ public class FormatLesson extends Lesson {
         var name = getSubject();
         var event = new VEvent(new DateTime(start.getTime()), new DateTime(end.getTime()), name);
 
-        StringBuilder desc = new StringBuilder();
-        desc.append(getAuditories());
 
         Uid uid = new Uid(UUID.randomUUID().toString() + System.currentTimeMillis());
         event.getProperties().add(uid);
-        event.getProperties().add(new Description(desc.toString()));
+        event.getProperties().add(getDescription());
         event.getProperties().add(new Location(getAuditories().toString()));
         event.getProperties().add(new Summary(getSubjectShort()));
         event.getProperties().add(new DtStamp(new DateTime()));
@@ -84,4 +82,9 @@ public class FormatLesson extends Lesson {
         return event;
     }
 
+    private Description getDescription() {
+        StringBuilder str = new StringBuilder();
+        str.append(getAuditories());
+        return new Description(str.toString()); 
+    }
 }

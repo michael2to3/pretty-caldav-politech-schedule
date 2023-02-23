@@ -22,6 +22,7 @@ import pretty.schedule.scheme.ScheduleOfWeek;
 public class Scraper {
     private final String url;
     private static final Request request = new Request();
+    private static final int STEP_OF_RANGE = 7;
 
     public Scraper(final String url) {
         this.url = url;
@@ -32,7 +33,7 @@ public class Scraper {
         Instant current = startDate;
         while (!current.isAfter(endDate)) {
             list.add(current);
-            current = current.plus(Duration.ofDays(7));
+            current = current.plus(Duration.ofDays(STEP_OF_RANGE));
         }
         return list;
     }

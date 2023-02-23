@@ -1,13 +1,13 @@
 package pretty.schedule.handleController;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-
+import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Calendar;
 import pretty.schedule.ical.Ical;
 import pretty.schedule.scheme.Group;
@@ -16,85 +16,76 @@ import pretty.schedule.scraper.Scraper;
 import pretty.schedule.util.Json;
 
 public class HandlerSchedule {
-    private int defaultRangeOfSchedule;
-    private Scraper scraper;
+  private int defaultRangeOfSchedule;
+  private Scraper scraper;
 
-    public HandlerSchedule(final String source) {
-        this.defaultRangeOfSchedule = 1;
-        this.scraper = new Scraper(source);
+  public HandlerSchedule(final String source) {
+    this.defaultRangeOfSchedule = 1;
+    this.scraper = new Scraper(source);
+  }
+
+  private Instant formatStartDate(final String startDate) {
+    Instant sDate = Instant.now().minus(defaultRangeOfSchedule * 7, ChronoUnit.DAYS);
+    if (startDate != null) {
+      sDate = Instant.parse(startDate);
     }
+    return sDate;
+  }
 
-    private Instant formatStartDate(final String startDate) {
-        Instant sDate = Instant.now().minus(defaultRangeOfSchedule * 7, ChronoUnit.DAYS);
-        if (startDate != null) {
-            sDate = Instant.parse(startDate);
-        }
-        return sDate;
+  private Instant formatEndDate(final String endDate) {
+    Instant eDate = Instant.now().plus(defaultRangeOfSchedule * 7, ChronoUnit.DAYS);
+    if (endDate != null) {
+      eDate = Instant.parse(endDate);
     }
+    return eDate;
+  }
 
-    private Instant formatEndDate(final String endDate) {
-        Instant eDate = Instant.now().plus(defaultRangeOfSchedule * 7, ChronoUnit.DAYS);
-        if (endDate != null) {
-            eDate = Instant.parse(endDate);
-        }
-        return eDate;
-    }
+  public String generateScheduleJson(final String groupId, final String startDate,
+      final String endDate) throws JsonParseException, JsonMappingException, IOException {
+    List<ScheduleOfWeek> schedules =
+        scraper.getRangeScheduleOfWeek(groupId, formatStartDate(startDate), formatEndDate(endDate));
 
-    public String generateScheduleJson(final String groupId, final String startDate, final String endDate)
-            throws JsonParseException, JsonMappingException, IOException {
+    return Json.convertString(schedules);
+  }
 
-        List<ScheduleOfWeek> schedules = scraper.getRangeScheduleOfWeek(groupId, formatStartDate(startDate),
-                formatEndDate(endDate));
+  public Calendar generateScheduleIcal(final String groupId, final String startDate,
+      final String endDate) throws JsonParseException, JsonMappingException, IOException {
+    List<ScheduleOfWeek> schedules =
+        scraper.getRangeScheduleOfWeek(groupId, formatStartDate(startDate), formatEndDate(endDate));
 
-        return Json.convertString(schedules);
-    }
+    Calendar total = new Ical("Schedule", schedules).getCalendar();
+    return total;
+  }
 
-    public Calendar generateScheduleIcal(final String groupId, final String startDate, final String endDate)
-            throws JsonParseException, JsonMappingException, IOException {
+  public String generateFacultiesJson()
+      throws JsonParseException, JsonMappingException, IOException {
+    return Json.convertString(scraper.getFaculties());
+  }
 
-        List<ScheduleOfWeek> schedules = scraper.getRangeScheduleOfWeek(groupId, formatStartDate(startDate),
-                formatEndDate(endDate));
+  public String generateGroupsJson(final String id)
+      throws JsonParseException, JsonMappingException, IOException {
+    return Json.convertString(scraper.getGroups(id));
+  }
 
-        Calendar total = new Ical("schedule", schedules.get(0)).getCalendar();
-        for (var schedule : schedules) {
-            total = schedule.getDays().stream()
-                    .map(sch -> new Ical("schedule", sch).getCalendar())
-                    .reduce(total, Ical::merge);
-        }
-        return total;
-    }
+  public String generateGroupOfNameJson(final String name)
+      throws JsonParseException, JsonMappingException, IOException {
+    Group group = scraper.getGroupOfName(name);
+    return Json.convertString(group);
+  }
 
-    public String generateFacultiesJson() throws JsonParseException, JsonMappingException, IOException {
-        return Json.convertString(scraper.getFaculties());
-    }
+  public String generateScheduleOfNameJson(final String name, final String start, final String end)
+      throws IOException {
+    List<ScheduleOfWeek> schedules;
+    schedules = scraper.getRangeScheduleOfName(name, formatStartDate(start), formatEndDate(end));
+    return Json.convertString(schedules);
+  }
 
-    public String generateGroupsJson(final String id) throws JsonParseException, JsonMappingException, IOException {
-        return Json.convertString(scraper.getGroups(id));
-    }
+  public String generateScheduleOfNameGroupIcal(
+      final String name, final String start, final String end) throws IOException {
+    var schedules =
+        scraper.getRangeScheduleOfName(name, formatStartDate(start), formatEndDate(end));
 
-    public String generateGroupOfNameJson(final String name)
-            throws JsonParseException, JsonMappingException, IOException {
-        Group group = scraper.getGroupOfName(name);
-        return Json.convertString(group);
-    }
-
-    public String generateScheduleOfNameJson(final String name, final String start, final String end)
-            throws IOException {
-        List<ScheduleOfWeek> schedules;
-        schedules = scraper.getRangeScheduleOfName(name, formatStartDate(start), formatEndDate(end));
-        return Json.convertString(schedules);
-    }
-
-    public Calendar generateScheduleOfNameGroupIcal(final String name, final String start, final String end)
-            throws IOException {
-        var schedules = scraper.getRangeScheduleOfName(name, formatStartDate(start), formatEndDate(end));
-
-        Calendar total = new Ical("Schedule", schedules.get(0)).getCalendar();
-        for (var schedule : schedules) {
-            total = schedule.getDays().stream()
-                    .map(sch -> new Ical("Schedule", sch).getCalendar())
-                    .reduce(total, Ical::merge);
-        }
-        return total;
-    }
+    Calendar total = new Ical("Schedule", schedules).getCalendar();
+    return total.toString();
+  }
 }

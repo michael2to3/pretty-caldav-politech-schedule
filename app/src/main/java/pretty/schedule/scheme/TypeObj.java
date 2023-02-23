@@ -1,32 +1,36 @@
 package pretty.schedule.scheme;
 
 public class TypeObj {
-    private int id;
-    private String name;
-    private String abbr;
+  private int id;
+  private String name;
+  private String abbr;
 
-    public int getId() {
-        return id;
-    }
+  @Override
+  public String toString() {
+    return String.format("%s(%s)", name, abbr);
+  }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public String getAbbr() {
-        return abbr;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setAbbr(String abbr) {
-        this.abbr = abbr;
-    }
+  public String getAbbr() {
+    return abbr;
+  }
 
+  public void setAbbr(String abbr) {
+    this.abbr = abbr;
+  }
 }

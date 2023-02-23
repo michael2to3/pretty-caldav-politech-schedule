@@ -3,10 +3,11 @@
  */
 package pretty.schedule;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.Test;
+
 class AppTest {
-    @Test void appHasAGreeting() {
-    }
+  @Test
+  void appHasAGreeting() {}
 }

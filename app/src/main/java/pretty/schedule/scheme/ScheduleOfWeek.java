@@ -1,55 +1,53 @@
 package pretty.schedule.scheme;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class ScheduleOfWeek {
-	private Week week;
-	private List<ScheduleOfDay> days;
-	private Group group;
-	private boolean error;
+  private Week week;
+  private List<ScheduleOfDay> days;
+  private Group group;
+  private boolean error;
 
-	@JsonProperty("text")
-	private String textOfError;
+  @JsonProperty("text") private String textOfError;
 
-	public boolean isError() {
-		return error;
-	}
+  public boolean isError() {
+    return error;
+  }
 
-	public void setError(boolean error) {
-		this.error = error;
-	}
+  public void setError(boolean error) {
+    this.error = error;
+  }
 
-	public String getTextOfError() {
-		return textOfError;
-	}
+  public String getTextOfError() {
+    return textOfError;
+  }
 
-	public void setTextOfError(String textOfError) {
-		this.textOfError = textOfError;
-	}
+  public void setTextOfError(String textOfError) {
+    this.textOfError = textOfError;
+  }
 
-	public Group getGroup() {
-		return group;
-	}
+  public Group getGroup() {
+    return group;
+  }
 
-	public void setGroup(Group group) {
-		this.group = group;
-	}
+  public void setGroup(Group group) {
+    this.group = group;
+  }
 
-	public Week getWeek() {
-		return week;
-	}
+  public Week getWeek() {
+    return week;
+  }
 
-	public void setWeek(Week week) {
-		this.week = week;
-	}
+  public void setWeek(Week week) {
+    this.week = week;
+  }
 
-	public List<ScheduleOfDay> getDays() {
-		return days;
-	}
+  public List<ScheduleOfDay> getDays() {
+    return days;
+  }
 
-	public void setDays(List<ScheduleOfDay> days) {
-		this.days = days;
-	}
+  public void setDays(List<ScheduleOfDay> days) {
+    this.days = days;
+  }
 }

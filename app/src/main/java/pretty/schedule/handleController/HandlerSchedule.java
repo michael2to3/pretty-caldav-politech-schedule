@@ -1,13 +1,13 @@
 package pretty.schedule.handleController;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import net.fortuna.ical4j.data.CalendarOutputter;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+
 import net.fortuna.ical4j.model.Calendar;
 import pretty.schedule.ical.Ical;
 import pretty.schedule.scheme.Group;
@@ -42,16 +42,16 @@ public class HandlerSchedule {
 
   public String generateScheduleJson(final String groupId, final String startDate,
       final String endDate) throws JsonParseException, JsonMappingException, IOException {
-    List<ScheduleOfWeek> schedules =
-        scraper.getRangeScheduleOfWeek(groupId, formatStartDate(startDate), formatEndDate(endDate));
+    List<ScheduleOfWeek> schedules = scraper.getRangeScheduleOfWeek(groupId, formatStartDate(startDate),
+        formatEndDate(endDate));
 
     return Json.convertString(schedules);
   }
 
   public Calendar generateScheduleIcal(final String groupId, final String startDate,
       final String endDate) throws JsonParseException, JsonMappingException, IOException {
-    List<ScheduleOfWeek> schedules =
-        scraper.getRangeScheduleOfWeek(groupId, formatStartDate(startDate), formatEndDate(endDate));
+    List<ScheduleOfWeek> schedules = scraper.getRangeScheduleOfWeek(groupId, formatStartDate(startDate),
+        formatEndDate(endDate));
 
     Calendar total = new Ical("Schedule", schedules).getCalendar();
     return total;
@@ -82,8 +82,7 @@ public class HandlerSchedule {
 
   public String generateScheduleOfNameGroupIcal(
       final String name, final String start, final String end) throws IOException {
-    var schedules =
-        scraper.getRangeScheduleOfName(name, formatStartDate(start), formatEndDate(end));
+    var schedules = scraper.getRangeScheduleOfName(name, formatStartDate(start), formatEndDate(end));
 
     Calendar total = new Ical("Schedule", schedules).getCalendar();
     return total.toString();

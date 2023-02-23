@@ -10,6 +10,9 @@ public class Json {
   private static final Logger LOGGER = LoggerFactory.getLogger(Json.class);
 
   public static String convertString(Object obj) {
+    if (obj == null) {
+      return null;
+    }
     try {
       return new ObjectMapper().writeValueAsString(obj);
     } catch (JsonProcessingException e) {

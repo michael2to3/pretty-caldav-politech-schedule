@@ -52,15 +52,8 @@ public class FormatLesson extends Lesson {
   }
 
   public VEvent generateEvent(final int year, final int month, final int day) {
-    java.util.Calendar start = getStartDate();
-    start.set(java.util.Calendar.YEAR, year);
-    start.set(java.util.Calendar.MONTH, month);
-    start.set(java.util.Calendar.DAY_OF_MONTH, day);
-
-    java.util.Calendar end = getEndDate();
-    end.set(java.util.Calendar.YEAR, year);
-    end.set(java.util.Calendar.MONTH, month);
-    end.set(java.util.Calendar.DAY_OF_MONTH, day);
+    java.util.Calendar start = getDate(getTimeStart(), day, month, year);
+    java.util.Calendar end = getDate(getTimeEnd(), day, month, year);
 
     var name = getSubject();
     var event = new VEvent(new DateTime(start.getTime()), new DateTime(end.getTime()), name);
@@ -70,8 +63,6 @@ public class FormatLesson extends Lesson {
     event.getProperties().add(new Location(getAuditories().toString()));
     event.getProperties().add(new Summary(getSubjectShort()));
     event.getProperties().add(new DtStamp(new DateTime()));
-    event.getProperties().add(new DtStart(new DateTime(start.getTime())));
-    event.getProperties().add(new DtEnd(new DateTime(end.getTime())));
 
     return event;
   }

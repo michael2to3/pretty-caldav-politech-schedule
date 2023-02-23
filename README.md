@@ -11,7 +11,7 @@ pretty-caldav-politech-schedule is a Java project that parses college schedule s
 
 ## Requirements
 
-- Java 8 or above
+- Java 17 or above
 
 ## Installation
 

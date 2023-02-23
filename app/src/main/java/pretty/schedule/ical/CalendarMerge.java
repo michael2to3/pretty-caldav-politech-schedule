@@ -16,9 +16,7 @@ public class CalendarMerge {
     Calendar mergedCalendar = new Calendar();
     List<CalendarComponent> mergedComponents = new ArrayList<>(lhs.getComponents());
 
-    for (var o : rhs.getComponents()) {
-      mergedComponents.add((CalendarComponent) o);
-    }
+    mergedComponents.addAll(rhs.getComponents());
 
     mergedCalendar.getComponents().addAll(mergedComponents);
     return mergedCalendar;

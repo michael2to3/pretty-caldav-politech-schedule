@@ -13,8 +13,9 @@ public class ScheduleOfWeek {
   private Group group;
   /** Value indicating whether there was an error generating this schedule. */
   private boolean error;
-
-  @JsonProperty("text") private String textOfError;
+  /** The error message if there was an error generating this schedule. */
+  @JsonProperty("text")
+  private String textOfError;
 
   public boolean isError() {
     return error;

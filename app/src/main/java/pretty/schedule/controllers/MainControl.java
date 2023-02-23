@@ -197,6 +197,7 @@ public class MainControl {
 			@PathVariable final String nameOfGroup,
 			@RequestParam(required = false) String start,
 			@RequestParam(required = false) String end) {
+
 		String schedules = null;
 		try {
 			schedules = handler.generateScheduleOfNameJson(nameOfFacult + "/" + nameOfGroup, start, end);
@@ -216,10 +217,12 @@ public class MainControl {
 			@PathVariable final String nameOfFacult,
 			@PathVariable final String nameOfGroup,
 			@RequestParam(required = false) String startDate,
-			@RequestParam(required = false) String endDate) throws IOException {
+			@RequestParam(required = false) String endDate) {
+
 		Throwable error = null;
 		ErrorResponse eResp = null;
 		Resource resource = null;
+		long len = 0;
 		try {
 			Calendar calendar = handler.generateScheduleOfNameGroupIcal(nameOfFacult + "/" + nameOfGroup, startDate, endDate);
 
@@ -227,6 +230,7 @@ public class MainControl {
 			var outputter = new CalendarOutputter();
 			outputter.output(calendar, baos);
 			resource = new ByteArrayResource(baos.toByteArray());
+			len = resource.contentLength();
 		} catch (JsonParseException e) {
 			error = e;
 			eResp = new ErrorResponse("error", "JSON is not valid");
@@ -252,7 +256,7 @@ public class MainControl {
 		if (error == null) {
 			return ResponseEntity.ok()
 					.headers(headers)
-					.contentLength(resource.contentLength())
+					.contentLength(len)
 					.body(resource);
 
 		} else {

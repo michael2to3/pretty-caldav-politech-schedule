@@ -72,4 +72,47 @@ public class FormatLesson extends Lesson {
     str.append(getTypeObj());
     return new Description(str.toString());
   }
+
+  private Uid getUid() {
+    StringBuilder suid = new StringBuilder();
+    suid.append(getSubject());
+    suid.append(getSubjectShort());
+    suid.append(getType());
+    suid.append(getAdditionalInfo());
+    suid.append(getTimeStart());
+    suid.append(getTimeEnd());
+    suid.append(getParity());
+    suid.append(getTypeObj().getId());
+
+    if (getGroups() != null) {
+      for (Group group : getGroups()) {
+        suid.append(group.getId() + group.getName());
+      }
+    }
+
+    if (getTeachers() != null) {
+      for (Teacher teacher : getTeachers()) {
+        suid.append(teacher.getId() + teacher.getFullName());
+      }
+    }
+
+    if (getAuditories() != null) {
+      for (Auditorie auditorie : getAuditories()) {
+        suid.append(auditorie.getId() + auditorie.getName());
+      }
+    }
+    suid.append(getTimeStart() + getTimeEnd());
+    suid.append(getWebinarUrl() + getLmsUrl());
+
+    String result = null;
+    try {
+      final var md5 = MessageDigest.getInstance("MD5");
+      md5.update(StandardCharsets.UTF_8.encode(suid.toString()));
+      result = String.format("%032x", new BigInteger(1, md5.digest()));
+    } catch (Exception e) {
+      result = suid.toString();
+    }
+    return new Uid(result);
+  }
+
 }

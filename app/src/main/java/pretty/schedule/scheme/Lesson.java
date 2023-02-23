@@ -1,26 +1,29 @@
 package pretty.schedule.scheme;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.util.List;
-import net.fortuna.ical4j.model.property.Uid;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Lesson {
   private String subject;
-  @JsonProperty("subject_short") private String subjectShort;
+  @JsonProperty("subject_short")
+  private String subjectShort;
   private int type;
-  @JsonProperty("additional_info") private String additionalInfo;
-  @JsonProperty("time_start") private String timeStart;
-  @JsonProperty("time_end") private String timeEnd;
+  @JsonProperty("additional_info")
+  private String additionalInfo;
+  @JsonProperty("time_start")
+  private String timeStart;
+  @JsonProperty("time_end")
+  private String timeEnd;
   private int parity;
   private TypeObj typeObj;
   private List<Group> groups;
   private List<Teacher> teachers;
   private List<Auditorie> auditories;
-  @JsonProperty("webinar_url") private String webinarUrl;
-  @JsonProperty("lms_url") private String lmsUrl;
+  @JsonProperty("webinar_url")
+  private String webinarUrl;
+  @JsonProperty("lms_url")
+  private String lmsUrl;
 
   public Lesson(final Lesson lesson) {
     this.subject = lesson.subject;
@@ -38,7 +41,8 @@ public class Lesson {
     this.lmsUrl = lesson.lmsUrl;
   }
 
-  public Lesson() {}
+  public Lesson() {
+  }
 
   public String getLmsUrl() {
     return lmsUrl;
@@ -46,42 +50,6 @@ public class Lesson {
 
   public void setLmsUrl(String lmsUrl) {
     this.lmsUrl = lmsUrl;
-  }
-
-  public Uid getUid() {
-    StringBuilder suid = new StringBuilder();
-    suid.append(getSubject() + getSubjectShort() + getType() + getAdditionalInfo() + getTimeStart()
-        + getTimeEnd() + getParity() + getTypeObj().getId());
-
-    if (getGroups() != null) {
-      for (Group group : getGroups()) {
-        suid.append(group.getId() + group.getName());
-      }
-    }
-
-    if (getTeachers() != null) {
-      for (Teacher teacher : getTeachers()) {
-        suid.append(teacher.getId() + teacher.getFullName());
-      }
-    }
-
-    if (getAuditories() != null) {
-      for (Auditorie auditorie : getAuditories()) {
-        suid.append(auditorie.getId() + auditorie.getName());
-      }
-    }
-    suid.append(getTimeStart() + getTimeEnd());
-    suid.append(getWebinarUrl() + getLmsUrl());
-
-    String result = null;
-    try {
-      final var md5 = MessageDigest.getInstance("MD5");
-      md5.update(StandardCharsets.UTF_8.encode(suid.toString()));
-      result = String.format("%032x", new BigInteger(1, md5.digest()));
-    } catch (Exception e) {
-      result = suid.toString();
-    }
-    return new Uid(result);
   }
 
   public String getSubjectShort() {

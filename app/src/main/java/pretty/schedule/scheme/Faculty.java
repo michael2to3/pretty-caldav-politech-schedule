@@ -1,5 +1,7 @@
 package pretty.schedule.scheme;
 
+import java.util.Objects;
+
 /** Represents a faculty in a univeristy. */
 public class Faculty {
   /** The ID of the faculty. */
@@ -15,7 +17,24 @@ public class Faculty {
   public Faculty(int id, String name, String abbr) {
     this.id = id;
     this.name = name;
-    this.abbr = abbr; 
+    this.abbr = abbr;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o)
+      return true;
+    if (!(o instanceof Faculty))
+      return false;
+    Faculty faculty = (Faculty) o;
+    return id == faculty.id &&
+        name.equals(faculty.name) &&
+        abbr.equals(faculty.abbr);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name, abbr);
   }
 
   public int getId() {

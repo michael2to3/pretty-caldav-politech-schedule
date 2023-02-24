@@ -1,5 +1,7 @@
 package pretty.schedule.scheme;
 
+import java.util.Objects;
+
 /** Represents a study group */
 public class Group {
   /** The union idenitfier of the group */
@@ -44,6 +46,11 @@ public class Group {
     Group g = (Group) o;
     return id == g.id && level == g.level && kind == g.kind && spec.equals(g.spec) && year == g.year
         && faculty.equals(g.faculty);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name, level, type, kind, spec, year, faculty);
   }
 
   public int getId() {

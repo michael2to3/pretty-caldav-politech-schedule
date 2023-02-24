@@ -1,5 +1,7 @@
 package pretty.schedule.scheme;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Represents a week of the academic calendar. */
@@ -21,6 +23,23 @@ public class Week {
     this.dateStart = dateStart;
     this.dateEnd = dateEnd;
     this.isOdd = isOdd;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o)
+      return true;
+    if (!(o instanceof Week))
+      return false;
+    Week week = (Week) o;
+    return isOdd == week.isOdd &&
+        Objects.equals(dateStart, week.dateStart) &&
+        Objects.equals(dateEnd, week.dateEnd);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(dateStart, dateEnd, isOdd);
   }
 
   public String getDateStart() {

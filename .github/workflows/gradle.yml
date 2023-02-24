@@ -1,13 +1,6 @@
 name: Java CI with Gradle
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
-permissions: write-all
-
+on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,11 +21,12 @@ jobs:
       run: gradle test
 
     - name: Archive test reports
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: junit-reports
         path: app/build/reports/
 
-
     - name: Upload coverage reports to Codecov
+      env:
+        CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
       uses: codecov/codecov-action@v3

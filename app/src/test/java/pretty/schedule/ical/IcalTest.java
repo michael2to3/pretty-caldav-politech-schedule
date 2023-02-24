@@ -9,12 +9,6 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import net.fortuna.ical4j.model.Calendar;
-import net.fortuna.ical4j.model.component.VEvent;
-import net.fortuna.ical4j.model.property.CalScale;
-import net.fortuna.ical4j.model.property.Description;
-import net.fortuna.ical4j.model.property.ProdId;
-import net.fortuna.ical4j.model.property.Summary;
-import net.fortuna.ical4j.model.property.Version;
 import pretty.schedule.scheme.Auditorie;
 import pretty.schedule.scheme.Group;
 import pretty.schedule.scheme.Lesson;
@@ -24,23 +18,6 @@ import pretty.schedule.scheme.TypeObj;
 import pretty.schedule.scheme.Week;
 
 public class IcalTest {
-
-  private VEvent getEvent() {
-    VEvent event = new VEvent();
-    event.getProperties().add(new Description("description"));
-    event.getProperties().add(new Summary("summary"));
-    event.getProperties().add(new ProdId(String.format("-//{0}//RU", "Schedule")));
-    event.getProperties().add(Version.VERSION_2_0);
-    event.getProperties().add(CalScale.GREGORIAN);
-    return event;
-  }
-
-  private List<VEvent> getEvents() {
-    List<VEvent> events = new ArrayList<>();
-    events.add(getEvent());
-    events.add(getEvent());
-    return events;
-  }
 
   private TypeObj getTypeObj() {
     TypeObj obj = new TypeObj();

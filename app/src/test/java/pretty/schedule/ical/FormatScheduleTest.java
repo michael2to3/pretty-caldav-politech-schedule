@@ -14,41 +14,16 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import net.fortuna.ical4j.model.component.VEvent;
-import net.fortuna.ical4j.model.property.CalScale;
-import net.fortuna.ical4j.model.property.Description;
-import net.fortuna.ical4j.model.property.ProdId;
-import net.fortuna.ical4j.model.property.Summary;
-import net.fortuna.ical4j.model.property.Version;
 import pretty.schedule.scheme.Auditorie;
-import pretty.schedule.scheme.Group;
 import pretty.schedule.scheme.Lesson;
 import pretty.schedule.scheme.ScheduleOfDay;
-import pretty.schedule.scheme.ScheduleOfWeek;
 import pretty.schedule.scheme.TypeObj;
-import pretty.schedule.scheme.Week;
 
 @DisplayName("FormatSchedule")
 class FormatScheduleTest {
   private ScheduleOfDay schedule;
   private Instant date;
   private FormatSchedule formatSchedule;
-
-  private VEvent getEvent() {
-    VEvent event = new VEvent();
-    event.getProperties().add(new Description("description"));
-    event.getProperties().add(new Summary("summary"));
-    event.getProperties().add(new ProdId(String.format("-//{0}//RU", "Schedule")));
-    event.getProperties().add(Version.VERSION_2_0);
-    event.getProperties().add(CalScale.GREGORIAN);
-    return event;
-  }
-
-  private List<VEvent> getEvents() {
-    List<VEvent> events = new ArrayList<>();
-    events.add(getEvent());
-    events.add(getEvent());
-    return events;
-  }
 
   private TypeObj getTypeObj() {
     TypeObj obj = new TypeObj();
@@ -98,32 +73,6 @@ class FormatScheduleTest {
     schedule.setDate("2022-01-01");
     schedule.setWeekday(1);
     schedule.setLessons(getLessons(names));
-    return schedule;
-  }
-
-  private Week getWeek() {
-    Week week = new Week();
-    week.setDateStart("2022-01-01");
-    week.setDateEnd("2022-01-07");
-    week.setOdd(true);
-    return week;
-  }
-
-  private Group getGroup() {
-    Group group = new Group();
-    group.setName("Group");
-    return group;
-  }
-
-  private ScheduleOfWeek getScheduleOfWeek(int countSchedules, String... names) {
-    ScheduleOfWeek schedule = new ScheduleOfWeek();
-    schedule.setWeek(getWeek());
-    schedule.setGroup(getGroup());
-    List<ScheduleOfDay> days = new ArrayList<>();
-    for (int i = 0; i < countSchedules; ++i) {
-      days.add(getScheduleOfDay(names));
-    }
-    schedule.setDays(days);
     return schedule;
   }
 

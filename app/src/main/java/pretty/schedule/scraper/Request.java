@@ -1,12 +1,16 @@
 package pretty.schedule.scraper;
 
+import java.io.IOException;
+import java.net.URL;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.net.URL;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import pretty.schedule.cache.Cache;
 
 public class Request {
   private static final Logger LOGGER = LoggerFactory.getLogger(Request.class);

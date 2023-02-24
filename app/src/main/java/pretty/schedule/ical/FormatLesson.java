@@ -40,6 +40,8 @@ public class FormatLesson extends Lesson {
     java.util.Calendar date = getCalendar();
     FormatTime formatTime = new FormatTime(time);
     date.setTimeZone(FactoryTimeZone.getTz());
+    date.set(java.util.Calendar.MILLISECOND, 0);
+    date.set(java.util.Calendar.SECOND, 0);
     date.set(java.util.Calendar.MINUTE, formatTime.getMinute());
     date.set(java.util.Calendar.HOUR_OF_DAY, formatTime.getHour());
     date.set(java.util.Calendar.DAY_OF_MONTH, day);

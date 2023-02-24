@@ -22,6 +22,11 @@ jobs:
       with:
         java-version: 17
 
+    - name: Grant write permissions to app/build
+      uses: actions/run-command@v1
+      with:
+        command: chmod +w app/build
+
     - name: Build with Gradle
       run: gradle build
 

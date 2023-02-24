@@ -1,7 +1,9 @@
 package pretty.schedule.scheme;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
+import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Represents a weekly schedule for a particular group of students. */
 public class ScheduleOfWeek {
@@ -16,6 +18,32 @@ public class ScheduleOfWeek {
   /** The error message if there was an error generating this schedule. */
   @JsonProperty("text")
   private String textOfError;
+
+  public ScheduleOfWeek() {
+  }
+
+  public ScheduleOfWeek(Week week, List<ScheduleOfDay> days, Group group) {
+    this.week = week;
+    this.days = days;
+    this.group = group;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o)
+      return true;
+    if (!(o instanceof ScheduleOfWeek))
+      return false;
+    ScheduleOfWeek that = (ScheduleOfWeek) o;
+    return Objects.equals(week, that.week) &&
+        Objects.equals(days, that.days) &&
+        Objects.equals(group, that.group);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(week, group, days);
+  }
 
   public boolean isError() {
     return error;

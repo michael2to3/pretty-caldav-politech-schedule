@@ -14,6 +14,15 @@ public class Week {
   @JsonProperty("is_odd")
   private boolean isOdd;
 
+  public Week() {
+  }
+
+  public Week(String dateStart, String dateEnd, boolean isOdd) {
+    this.dateStart = dateStart;
+    this.dateEnd = dateEnd;
+    this.isOdd = isOdd;
+  }
+
   public String getDateStart() {
     return dateStart;
   }

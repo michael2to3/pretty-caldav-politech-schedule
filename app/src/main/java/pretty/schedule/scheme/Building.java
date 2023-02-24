@@ -1,5 +1,7 @@
 package pretty.schedule.scheme;
 
+import java.util.Objects;
+
 /** Repsents a building on campus. */
 public class Building {
   /** The ID of the building. */
@@ -10,6 +12,34 @@ public class Building {
   private String abbr;
   /** The short address of the building. */
   private String address;
+
+  public Building() {
+  }
+
+  public Building(int id, String name, String abbr, String address) {
+    this.id = id;
+    this.name = name;
+    this.abbr = abbr;
+    this.address = address;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o)
+      return true;
+    if (!(o instanceof Building))
+      return false;
+    Building other = (Building) o;
+    return id == other.id &&
+        name.equals(other.name) &&
+        abbr.equals(other.abbr) &&
+        address.equals(other.address);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, name, abbr, address);
+  }
 
   @Override
   public String toString() {

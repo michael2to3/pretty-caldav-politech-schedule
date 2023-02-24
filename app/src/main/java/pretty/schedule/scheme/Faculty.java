@@ -9,6 +9,15 @@ public class Faculty {
   /** The department of the faculty. */
   private String abbr;
 
+  public Faculty() {
+  }
+
+  public Faculty(int id, String name, String abbr) {
+    this.id = id;
+    this.name = name;
+    this.abbr = abbr; 
+  }
+
   public int getId() {
     return id;
   }

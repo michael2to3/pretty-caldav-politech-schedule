@@ -1,6 +1,7 @@
 package pretty.schedule.scheme;
 
 import java.util.List;
+import java.util.Objects;
 
 /** Represents a schedule for a singly day. */
 public class ScheduleOfDay {
@@ -10,6 +11,30 @@ public class ScheduleOfDay {
   private String date;
   /** The list of lessons scheduled for this day. */
   private List<Lesson> lessons;
+
+  public ScheduleOfDay() {
+  }
+
+  public ScheduleOfDay(int weekday, String date, List<Lesson> lessons) {
+    this.weekday = weekday;
+    this.date = date;
+    this.lessons = lessons;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o)
+      return true;
+    if (!(o instanceof ScheduleOfDay))
+      return false;
+    ScheduleOfDay that = (ScheduleOfDay) o;
+    return weekday == that.weekday && date.equals(that.date) && lessons.equals(that.lessons);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(weekday, date, lessons);
+  }
 
   public int getWeekday() {
     return weekday;

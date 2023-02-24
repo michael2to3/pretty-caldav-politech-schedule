@@ -21,6 +21,31 @@ public class Group {
   /** The faculty to which the group belongs. */
   private Faculty faculty;
 
+  public Group() {
+  }
+
+  public Group(int id, String name, int level, String type, int kind, String spec, int year, Faculty faculty) {
+    this.id = id;
+    this.name = name;
+    this.level = level;
+    this.type = type;
+    this.kind = kind;
+    this.spec = spec;
+    this.year = year;
+    this.faculty = faculty;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o)
+      return true;
+    if (!(o instanceof Group))
+      return false;
+    Group g = (Group) o;
+    return id == g.id && level == g.level && kind == g.kind && spec.equals(g.spec) && year == g.year
+        && faculty.equals(g.faculty);
+  }
+
   public int getId() {
     return id;
   }

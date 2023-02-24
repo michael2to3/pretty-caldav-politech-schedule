@@ -1,6 +1,7 @@
 package pretty.schedule.scheme;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -56,6 +57,34 @@ public class Lesson {
   }
 
   public Lesson() {
+  }
+
+  @Override
+  public boolean equals(final Object o) {
+    if (this == o)
+      return true;
+    if (!(o instanceof Lesson))
+      return false;
+    final Lesson lesson = (Lesson) o;
+    return subject.equals(lesson.subject) &&
+        subjectShort.equals(lesson.subjectShort) &&
+        type == lesson.type &&
+        additionalInfo.equals(lesson.additionalInfo) &&
+        timeStart.equals(lesson.timeStart) &&
+        timeEnd.equals(lesson.timeEnd) &&
+        parity == lesson.parity &&
+        typeObj == lesson.typeObj &&
+        groups.equals(lesson.groups) &&
+        teachers.equals(lesson.teachers) &&
+        auditories.equals(lesson.auditories) &&
+        webinarUrl.equals(lesson.webinarUrl) &&
+        lmsUrl.equals(lesson.lmsUrl);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(subject, subjectShort, type, additionalInfo, timeStart, timeEnd, parity, typeObj, groups,
+        teachers, auditories, webinarUrl, lmsUrl);
   }
 
   public String getLmsUrl() {

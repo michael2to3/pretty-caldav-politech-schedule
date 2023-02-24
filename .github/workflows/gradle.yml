@@ -25,7 +25,7 @@ jobs:
     - name: Grant write permissions to app/build
       uses: actions/run-command@v1
       with:
-        command: chmod +w app/build
+        command: mkdir app/build && chmod +w app/build
 
     - name: Build with Gradle
       run: gradle build

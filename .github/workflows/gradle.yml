@@ -27,7 +27,12 @@ jobs:
     - name: Test with JUnit
       run: gradle test
 
+    - name: Archive test reports
+      uses: actions/upload-artifact@v2
+      with:
+        name: junit-reports
+        path: app/build/reports/
+
+
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
-      with:
-        path: app/build/reports/

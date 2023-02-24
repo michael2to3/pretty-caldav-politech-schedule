@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -21,11 +21,6 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 17
-
-    - name: Grant write permissions to app/build
-      uses: actions/run-command@v1
-      with:
-        command: mkdir app/build && chmod +w app/build
 
     - name: Build with Gradle
       run: gradle build

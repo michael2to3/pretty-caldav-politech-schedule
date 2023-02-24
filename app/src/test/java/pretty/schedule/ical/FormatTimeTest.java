@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FormatTimeTest {
-    private static final int OFFSET = 3;
+    private static final int OFFSET = FactoryTimeZone.getOffsetAsHour();
 
     @Test
     public void testFormatTime() {

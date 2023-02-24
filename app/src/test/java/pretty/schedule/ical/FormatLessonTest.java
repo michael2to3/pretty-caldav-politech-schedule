@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import pretty.schedule.scheme.Lesson;
 
 public class FormatLessonTest {
-  private static final int OFFSET = 3;
+  private static final int OFFSET = FactoryTimeZone.getOffsetAsHour();
 
   @Test
   public void testGetDate() {

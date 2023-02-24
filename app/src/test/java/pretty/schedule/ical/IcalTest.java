@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import net.fortuna.ical4j.model.Calendar;
 import pretty.schedule.scheme.Auditorie;
+import pretty.schedule.scheme.Building;
+import pretty.schedule.scheme.Faculty;
 import pretty.schedule.scheme.Group;
 import pretty.schedule.scheme.Lesson;
 import pretty.schedule.scheme.ScheduleOfDay;
@@ -28,17 +30,21 @@ public class IcalTest {
   }
 
   private Auditorie getAuditorie() {
-    Auditorie auditorie = new Auditorie();
+    Building build = new Building(0, "name", "build", "build");
+    Auditorie auditorie = new Auditorie(0, "name", build);
     auditorie.setId(0);
     auditorie.setName("name");
     return auditorie;
+
   }
+
   private List<Auditorie> getAuditories() {
     List<Auditorie> auditories = new ArrayList<>();
     auditories.add(getAuditorie());
     auditories.add(getAuditorie());
     return auditories;
   }
+
   private Lesson getLesson() {
     Lesson lesson = new Lesson();
     lesson.setType(0);
@@ -62,7 +68,10 @@ public class IcalTest {
   }
 
   private ScheduleOfDay getScheduleOfDay(int countLessons) {
-    ScheduleOfDay schedule = new ScheduleOfDay();
+    var weekday = 1;
+    var date = "2022-01-01";
+    var lessons = getLessons();
+    ScheduleOfDay schedule = new ScheduleOfDay(weekday, date, lessons);
     schedule.setDate("2022-01-01");
     schedule.setWeekday(1);
     for (int i = 0; i < countLessons; ++i) {
@@ -72,28 +81,31 @@ public class IcalTest {
   }
 
   private Week getWeek() {
-    Week week = new Week();
-    week.setDateStart("2022-01-01");
-    week.setDateEnd("2022-01-07");
-    week.setOdd(true);
+    Week week = new Week("2022-01-01", "2022-01-07", true);
     return week;
   }
 
   private Group getGroup() {
-    Group group = new Group();
+    int id = 1;
+    String name = "name";
+    int level = 1;
+    String type = "type";
+    int kind = 1;
+    String spec = "spec";
+    int year = 2022;
+    String abbr = "abbr";
+    Faculty faculty = new Faculty(id, name, abbr);
+    Group group = new Group(id, name, level, type, kind, spec, year, faculty);
     group.setName("Group");
     return group;
   }
 
   private ScheduleOfWeek getScheduleOfWeek(int countSchedules, int countLessons) {
-    ScheduleOfWeek schedule = new ScheduleOfWeek();
-    schedule.setWeek(getWeek());
-    schedule.setGroup(getGroup());
     List<ScheduleOfDay> days = new ArrayList<>();
     for (int i = 0; i < countSchedules; ++i) {
       days.add(getScheduleOfDay(countLessons));
     }
-    schedule.setDays(days);
+    ScheduleOfWeek schedule = new ScheduleOfWeek(getWeek(), days, getGroup());
     return schedule;
   }
 

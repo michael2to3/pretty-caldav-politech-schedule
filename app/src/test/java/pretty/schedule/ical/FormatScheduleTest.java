@@ -15,6 +15,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import net.fortuna.ical4j.model.component.VEvent;
 import pretty.schedule.scheme.Auditorie;
+import pretty.schedule.scheme.Building;
 import pretty.schedule.scheme.Lesson;
 import pretty.schedule.scheme.ScheduleOfDay;
 import pretty.schedule.scheme.TypeObj;
@@ -35,7 +36,8 @@ class FormatScheduleTest {
   }
 
   private Auditorie getAuditorie() {
-    Auditorie auditorie = new Auditorie();
+    Building build = new Building(0, "name", "build", "build");
+    Auditorie auditorie = new Auditorie(0, "name", build);
     auditorie.setId(0);
     auditorie.setName("name");
     return auditorie;
@@ -70,9 +72,10 @@ class FormatScheduleTest {
   }
 
   private ScheduleOfDay getScheduleOfDay(final String start, final String end, final String... names) {
-    ScheduleOfDay schedule = new ScheduleOfDay();
-    schedule.setDate("2022-01-01");
-    schedule.setWeekday(1);
+    var weekday = 1;
+    var date = "2020-01-01";
+    var lessons = getLessons(start, end, names);
+    ScheduleOfDay schedule = new ScheduleOfDay(weekday, date, lessons);
     schedule.setLessons(getLessons(start, end, names));
     return schedule;
   }

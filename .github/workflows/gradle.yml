@@ -20,6 +20,9 @@ jobs:
     - name: Test with JUnit
       run: gradle test
 
+    - name: Create Jacoco report
+      run: gradle jacocoTestReport
+
     - name: Archive test reports
       uses: actions/upload-artifact@v3
       with:

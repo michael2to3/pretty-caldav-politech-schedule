@@ -67,6 +67,9 @@ class ScheduleOfDayTest {
     assertEquals(lhs, rhs);
     assertNotEquals(lhs, other);
     assertNotEquals(rhs, other);
+    assertNotEquals(lhs, null);
+    assertEquals(lhs.hashCode(), rhs.hashCode());
+    assertNotEquals(lhs.hashCode(), other.hashCode());
   }
 
   @Test
@@ -91,6 +94,20 @@ class ScheduleOfDayTest {
     lhs.setLessons(lessons);
     assertEquals(2, lhs.getWeekday());
     assertEquals("2999-02-03", lhs.getDate());
+    assertEquals(lessons, lhs.getLessons());
+  }
+
+  @Test
+  void testSetterWithoutArgsConstructor() {
+    var week = 1;
+    var date = "2022-01-01";
+    var lessons = getLessons();
+    ScheduleOfDay lhs = new ScheduleOfDay();
+    lhs.setWeekday(week);
+    lhs.setDate(date);
+    lhs.setLessons(lessons);
+    assertEquals(week, lhs.getWeekday());
+    assertEquals(date, lhs.getDate());
     assertEquals(lessons, lhs.getLessons());
   }
 }

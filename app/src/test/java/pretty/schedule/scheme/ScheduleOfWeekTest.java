@@ -98,9 +98,25 @@ class ScheduleOfWeekTest {
     ScheduleOfWeek rhs = new ScheduleOfWeek(week, days, group);
     ScheduleOfWeek other = new ScheduleOfWeek(oweek, odays, ogroup);
 
-    assertEquals(lhs,rhs);
+    assertEquals(lhs, rhs);
     assertNotEquals(lhs, other);
     assertNotEquals(rhs, other);
+    assertNotEquals(lhs, null);
+    assertEquals(lhs.hashCode(), rhs.hashCode());
+    assertNotEquals(lhs.hashCode(), other.hashCode());
+  }
 
+  @Test
+  void testSettersWithoutArgsConstructor() {
+    var week = getWeek();
+    var days = getDays();
+    var group = getGroup();
+    ScheduleOfWeek lhs = new ScheduleOfWeek();
+    lhs.setWeek(week);
+    lhs.setDays(days);
+    lhs.setGroup(group);
+    assertEquals(lhs.getWeek(), week);
+    assertEquals(lhs.getDays(), days);
+    assertEquals(lhs.getGroup(), group);
   }
 }

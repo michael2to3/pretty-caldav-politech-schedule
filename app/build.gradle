@@ -30,4 +30,5 @@ application {
 
 tasks.named('test') {
     useJUnitPlatform()
+    reports.junitXml.destination = file('app/build/reports/')
 }

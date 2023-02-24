@@ -24,6 +24,7 @@ class FormatScheduleTest {
   private ScheduleOfDay schedule;
   private Instant date;
   private FormatSchedule formatSchedule;
+  private static final int OFFSET = FactoryTimeZone.getOffsetAsHour();
 
   private TypeObj getTypeObj() {
     TypeObj obj = new TypeObj();
@@ -47,38 +48,38 @@ class FormatScheduleTest {
     return auditories;
   }
 
-  private Lesson getLesson(final String name) {
+  private Lesson getLesson(final String name, final String start, final String end) {
     Lesson lesson = new Lesson();
     lesson.setSubject(name);
     lesson.setType(0);
     lesson.setParity(0);
-    lesson.setTimeStart("09:00");
-    lesson.setTimeEnd("10:00");
+    lesson.setTimeStart(start);
+    lesson.setTimeEnd(end);
     lesson.setType(0);
     lesson.setTypeObj(getTypeObj());
     lesson.setAuditories(getAuditories());
     return lesson;
   }
 
-  private List<Lesson> getLessons(final String... names) {
+  private List<Lesson> getLessons(final String start, final String end, final String... names) {
     List<Lesson> lessons = new ArrayList<>();
     for (String name : names) {
-      lessons.add(getLesson(name));
+      lessons.add(getLesson(name, start, end));
     }
     return lessons;
   }
 
-  private ScheduleOfDay getScheduleOfDay(final String... names) {
+  private ScheduleOfDay getScheduleOfDay(final String start, final String end, final String... names) {
     ScheduleOfDay schedule = new ScheduleOfDay();
     schedule.setDate("2022-01-01");
     schedule.setWeekday(1);
-    schedule.setLessons(getLessons(names));
+    schedule.setLessons(getLessons(start, end, names));
     return schedule;
   }
 
   @BeforeEach
   void setUp() {
-    schedule = getScheduleOfDay("Lesson 1", "Lesson 2");
+    schedule = getScheduleOfDay("10:00", "11:00", "Lesson 1", "Lesson 2");
     date = Instant.parse("2022-02-14T00:00:00Z");
     formatSchedule = new FormatSchedule(schedule);
     formatSchedule.setDate(date);
@@ -136,13 +137,13 @@ class FormatScheduleTest {
 
       VEvent event1 = events.get(0);
       assertEquals("Lesson 1", event1.getSummary().getValue());
-      assertEquals(date.plusSeconds(6 * 60 * 60), event1.getStartDate().getDate().toInstant());
-      assertEquals(date.plusSeconds(7 * 60 * 60), event1.getEndDate().getDate().toInstant());
+      assertEquals(date.plusSeconds((10 - OFFSET) * 60 * 60), event1.getStartDate().getDate().toInstant());
+      assertEquals(date.plusSeconds((11 - OFFSET) * 60 * 60), event1.getEndDate().getDate().toInstant());
 
       VEvent event2 = events.get(1);
       assertEquals("Lesson 2", event2.getSummary().getValue());
-      assertEquals(date.plusSeconds(6 * 60 * 60), event2.getStartDate().getDate().toInstant());
-      assertEquals(date.plusSeconds(7 * 60 * 60), event2.getEndDate().getDate().toInstant());
+      assertEquals(date.plusSeconds((10 - OFFSET) * 60 * 60), event2.getStartDate().getDate().toInstant());
+      assertEquals(date.plusSeconds((11 - OFFSET) * 60 * 60), event2.getEndDate().getDate().toInstant());
     }
   }
 }

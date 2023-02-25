@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,21 +23,23 @@ import pretty.schedule.scraper.Scraper;
 @RestController
 @RequestMapping("/schedule/")
 class ScheduleMap {
-  @Autowired
-  private Environment env;
   private Scraper scraper;
   private RangeOfDate rangeOfDate;
+  @Value("${application.source}")
+  private String source;
+  @Value("${application.target}")
+  private String target;
 
   @PostConstruct
   public void init() {
-    scraper = new Scraper(env.getProperty("application.target"));
+    scraper = new Scraper(target);
     this.rangeOfDate = new RangeOfDate(6 * 7 * 7);
   }
 
   @GetMapping("/")
   @ResponseBody
   public String index() {
-    return "This a schedule service, you can check documentation at: " + env.getProperty("application.source");
+    return "This a schedule service, you can check documentation at: " + source;
   }
 
   @GetMapping("/groups/id/{group}")

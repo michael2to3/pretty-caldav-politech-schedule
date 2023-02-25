@@ -18,9 +18,17 @@ import pretty.schedule.scheme.ErrorResponse;
 
 @ControllerAdvice
 public class ExceptionMapper extends ResponseEntityExceptionHandler {
+  private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionMapper.class);
   @Value("${application.debug:false}")
   private boolean debug;
-  private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionMapper.class);
+
+  public boolean isDebug() {
+    return debug;
+  }
+
+  public void setDebug(boolean debug) {
+    this.debug = debug;
+  }
 
   @ExceptionHandler(Exception.class)
   protected ResponseEntity<Object> handleException(RuntimeException ex, WebRequest request) {

@@ -2,6 +2,7 @@ package pretty.schedule.controllers;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -58,7 +59,7 @@ class ScheduleMap {
 
   @GetMapping("/json/group/id/{group}")
   @ResponseBody
-  public List<ScheduleOfWeek> getScheduleById(
+  public List<ScheduleOfWeek> getScheduleByIdAsJson(
       @PathVariable("group") final String group,
       @RequestParam("start") final String start,
       @RequestParam("end") final String end) throws IOException {
@@ -69,7 +70,7 @@ class ScheduleMap {
 
   @GetMapping("/json/{faculty}/{group}")
   @ResponseBody
-  public List<ScheduleOfWeek> getScheduleByName(
+  public List<ScheduleOfWeek> getScheduleByNameAsJson(
       @PathVariable("faculty") final String faculty,
       @PathVariable("group") final String group,
       @RequestParam(value = "start", required = false) final String start,
@@ -115,4 +116,37 @@ class ScheduleMap {
   public List<Faculty> getFaculties() throws IOException {
     return scraper.getFaculties();
   }
+
+
+  @GetMapping(value = "/ical/{faculty}/{group}/{range}", produces = "text/calendar")
+  @ResponseBody
+  public String getRangeScheduleByNameAsIcal(
+      @PathVariable("faculty") final String faculty,
+      @PathVariable("group") final String group,
+      @PathVariable("range") final String range) throws IOException {
+    int irange = Integer.parseInt(range);
+    Instant start = Instant.now().minus(irange, ChronoUnit.DAYS);
+    Instant end = Instant.now().plus(irange, ChronoUnit.DAYS);
+
+    final String name = faculty + "/" + group;
+    final var schedule = scraper.getRangeScheduleByName(name, start, end);
+    Ical ical = new Ical("Schedule of " + name, schedule);
+    return ical.getCalendar().toString();
+  }
+
+  @GetMapping(value = "/json/{faculty}/{group}/{range}")
+  @ResponseBody
+  public List<ScheduleOfWeek> getRangeScheduleByNameAsJson(
+      @PathVariable("faculty") final String faculty,
+      @PathVariable("group") final String group,
+      @PathVariable("range") final String range) throws IOException {
+    int irange = Integer.parseInt(range);
+    Instant start = Instant.now().minus(irange, ChronoUnit.DAYS);
+    Instant end = Instant.now().plus(irange, ChronoUnit.DAYS);
+
+    final String name = faculty + "/" + group;
+    final var schedule = scraper.getRangeScheduleByName(name, start, end);
+    return schedule;
+  }
+
 }

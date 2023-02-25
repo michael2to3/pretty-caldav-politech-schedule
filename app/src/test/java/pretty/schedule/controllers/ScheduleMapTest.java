@@ -45,7 +45,7 @@ class ScheduleMapTest {
 
   @Test
   public void testGetScheduleById() throws IOException {
-    List<ScheduleOfWeek> schedules = scheduleMap.getScheduleById("35610", null, null);
+    List<ScheduleOfWeek> schedules = scheduleMap.getScheduleByIdAsJson("35610", null, null);
     assertTrue(schedules.size() > 0);
     assertNotEquals(null, schedules.get(0).getGroup().getName());
     assertNotEquals("", schedules.get(0).getGroup().getName());
@@ -53,7 +53,7 @@ class ScheduleMapTest {
 
   @Test
   public void testGetScheduleByName() throws IOException {
-    List<ScheduleOfWeek> schedules = scheduleMap.getScheduleByName(faculty, group, null, null);
+    List<ScheduleOfWeek> schedules = scheduleMap.getScheduleByNameAsJson(faculty, group, null, null);
     assertTrue(schedules.size() > 0);
     assertEquals(name, schedules.get(0).getGroup().getName());
   }
@@ -62,5 +62,19 @@ class ScheduleMapTest {
   public void testGetScheduleByIdAsIcal() throws IOException {
     String icalString = scheduleMap.getScheduleByIdAsIcal("36510", null, null);
     assertTrue(icalString.startsWith("BEGIN:VCALENDAR"));
+  }
+
+  @Test
+  public void getRangeScheduleByNameAsIcal() throws IOException {
+    String icalString = scheduleMap.getRangeScheduleByNameAsIcal(faculty, group, "1");
+    assertTrue(icalString.startsWith("BEGIN:VCALENDAR"));
+  }
+
+  @Test
+  public void getRangeScheduleByNameAsJson() throws IOException {
+    var schedule = scheduleMap.getRangeScheduleByNameAsJson(faculty, group, "1");
+    assertTrue(schedule.size() > 0);
+    assertNotEquals(null, schedule.get(0));
+    assertTrue(schedule.get(0).getGroup().getName().equals(name));
   }
 }

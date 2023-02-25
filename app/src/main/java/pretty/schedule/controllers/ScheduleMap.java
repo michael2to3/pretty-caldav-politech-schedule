@@ -58,7 +58,7 @@ class ScheduleMap {
 
   @GetMapping("/json/group/id/{group}")
   @ResponseBody
-  public List<ScheduleOfWeek> getScheduleById(
+  public List<ScheduleOfWeek> getScheduleByIdAsJson(
       @PathVariable("group") final String group,
       @RequestParam("start") final String start,
       @RequestParam("end") final String end) throws IOException {
@@ -69,7 +69,7 @@ class ScheduleMap {
 
   @GetMapping("/json/{faculty}/{group}")
   @ResponseBody
-  public List<ScheduleOfWeek> getScheduleByName(
+  public List<ScheduleOfWeek> getScheduleByNameAsJson(
       @PathVariable("faculty") final String faculty,
       @PathVariable("group") final String group,
       @RequestParam(value = "start", required = false) final String start,

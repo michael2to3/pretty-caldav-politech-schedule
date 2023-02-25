@@ -45,7 +45,7 @@ class ScheduleMapTest {
 
   @Test
   public void testGetScheduleById() throws IOException {
-    List<ScheduleOfWeek> schedules = scheduleMap.getScheduleById("35610", null, null);
+    List<ScheduleOfWeek> schedules = scheduleMap.getScheduleByIdAsJson("35610", null, null);
     assertTrue(schedules.size() > 0);
     assertNotEquals(null, schedules.get(0).getGroup().getName());
     assertNotEquals("", schedules.get(0).getGroup().getName());
@@ -53,7 +53,7 @@ class ScheduleMapTest {
 
   @Test
   public void testGetScheduleByName() throws IOException {
-    List<ScheduleOfWeek> schedules = scheduleMap.getScheduleByName(faculty, group, null, null);
+    List<ScheduleOfWeek> schedules = scheduleMap.getScheduleByNameAsJson(faculty, group, null, null);
     assertTrue(schedules.size() > 0);
     assertEquals(name, schedules.get(0).getGroup().getName());
   }

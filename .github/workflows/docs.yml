@@ -1,0 +1,28 @@
+name: Generate Javadoc
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
+        
+    - name: Build with Gradle
+      run: ./gradlew build javadoc
+      
+    - name: Deploy Javadoc to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        personal_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./app/build/docs/javadoc/
+

@@ -35,6 +35,7 @@ application {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
 jacoco {
     toolVersion = "0.8.8"
 }
@@ -46,4 +47,8 @@ jacocoTestReport {
         csv.required = false
     }
     dependsOn(test)
+}
+
+javadoc {
+    source = sourceSets.main.allJava
 }

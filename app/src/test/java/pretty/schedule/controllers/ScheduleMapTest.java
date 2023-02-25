@@ -63,4 +63,18 @@ class ScheduleMapTest {
     String icalString = scheduleMap.getScheduleByIdAsIcal("36510", null, null);
     assertTrue(icalString.startsWith("BEGIN:VCALENDAR"));
   }
+
+  @Test
+  public void getRangeScheduleByNameAsIcal() throws IOException {
+    String icalString = scheduleMap.getRangeScheduleByNameAsIcal(faculty, group, "1");
+    assertTrue(icalString.startsWith("BEGIN:VCALENDAR"));
+  }
+
+  @Test
+  public void getRangeScheduleByNameAsJson() throws IOException {
+    var schedule = scheduleMap.getRangeScheduleByNameAsJson(faculty, group, "1");
+    assertTrue(schedule.size() > 0);
+    assertNotEquals(null, schedule.get(0));
+    assertTrue(schedule.get(0).getGroup().getName().equals(name));
+  }
 }

@@ -35,14 +35,21 @@ Pretty-caldav-politech-schedule is a Java project that parses college schedule s
 
 ### Spring Mapping
 
-| HTTP Method | URL | Source | Description |
-| --- | --- | --- | --- |
-| GET | /source/ | application.source | Get variable from application.source |
-| GET | /sch/{groupId} | HandlerSchedule.generateScheduleJson | Get schedule in JSON format for the specified group ID, start date, and end date |
-| GET | /sch/{groupId}/ics | HandlerSchedule.generateScheduleIcal | Get schedule in iCalendar format for the specified group ID, start date, and end date |
-| GET | /facultics/ | HandlerSchedule.generateFacultiesJson | Get faculties in JSON format |
-| GET | /groups/{id} | HandlerSchedule.generateGroupsJson | Get groups in JSON format for the specified group ID |
-| GET | /group/{nameOfFacult}/{nameOfGroup} | HandlerSchedule.generateGroupJson | Get group in JSON format for the specified faculty name and group name |
+| HTTP Method | URL                                       | Description                                               |
+|-------------|-------------------------------------------|-----------------------------------------------------------|
+| GET         | /schedule/                                | Get general information about the service                 |
+| GET         | /schedule/groups/id/{group}               | Get a list of `Group` objects by group ID                  |
+| GET         | /schedule/group/{faculty}/{group}         | Get a `Group` object by faculty and group name             |
+| GET         | /schedule/json/group/id/{group}           | Get a list of `ScheduleOfWeek` objects in JSON format by group ID and date range |
+| GET         | /schedule/json/{faculty}/{group}          | Get a list of `ScheduleOfWeek` objects in JSON format by faculty and group name and date range |
+| GET         | /schedule/ical/id/{group}                 | Get a iCalendar format of the schedule by group ID and date range |
+| GET         | /schedule/ical/{faculty}/{group}          | Get a iCalendar format of the schedule by faculty and group name and date range |
+| GET         | /schedule/faculties                       | Get a list of all `Faculty` objects                        |
+| GET         | /schedule/ical/{faculty}/{group}/{range}  | Get a iCalendar format of the schedule by faculty and group name and date range |
+| GET         | /schedule/json/{faculty}/{group}/{range}  | Get a list of `ScheduleOfWeek` objects in JSON format by faculty and group name and date range |
+| GET         | /env/                                     | Get all environment properties                            |
+| GET         | /env/source                                     | Get URL for this service                            |
+| GET         | /env/target                               | Get URL for scraping site |
 
 
 ## License

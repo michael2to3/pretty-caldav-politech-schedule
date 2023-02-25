@@ -10,10 +10,9 @@ import pretty.schedule.scheme.ErrorResponse;
 class JsonTest {
   @Test
   void convertString() {
-    ErrorResponse errorResponse = new ErrorResponse("error", "message");
+    ErrorResponse errorResponse = new ErrorResponse("error", "message", "none");
     String json = Json.convertString(errorResponse);
-    String expected = "{\"status\":\"error\",\"message\":\"message\"}";
-    assertEquals(expected, json);
+    assertEquals("{\"status\":\"error\",\"message\":\"message\",\"details\":\"none\"}", json);
   }
 
   @Test

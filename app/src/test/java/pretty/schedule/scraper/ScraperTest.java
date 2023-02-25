@@ -1,53 +1,68 @@
 package pretty.schedule.scraper;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.io.IOException;
-import java.time.DayOfWeek;
-import java.time.Duration;
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-
+import pretty.schedule.scheme.Faculty;
+import pretty.schedule.scheme.Group;
 import pretty.schedule.scheme.ScheduleOfWeek;
 
 public class ScraperTest {
+  private final String URL = "https://ruz.spbstu.ru/";
+  private final Scraper scraper = new Scraper(URL);
 
-  private Scraper scraper;
-  private Request request;
-
-  @BeforeEach
-  public void setup() {
-    request = mock(Request.class);
-    scraper = new Scraper("http://example.com");
+  @Test
+  void testGetFaculties() {
+    assertDoesNotThrow(() -> {
+      List<Faculty> faculties = scraper.getFaculties();
+      assertNotNull(faculties);
+      assertFalse(faculties.isEmpty());
+    });
   }
 
   @Test
-  public void testGetRangeScheduleOfWeek() throws IOException {
-    Instant startDate = Instant.parse("2023-02-01T00:00:00Z");
-    Instant endDate = Instant.parse("2023-02-28T00:00:00Z");
-    final ZonedDateTime zone = startDate.atZone(ZoneId.systemDefault());
-    final ZonedDateTime prevMonday = zone.with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
-    final List<Instant> expectedDates = new ArrayList<>();
-    Instant current = prevMonday.toInstant();
-    while (!current.isAfter(endDate)) {
-      expectedDates.add(current);
-      current = current.plus(Duration.ofDays(7));
-    }
-
-    ScheduleOfWeek mockSchedule = new ScheduleOfWeek();
-    when(
-        request.get("http://example.com/api/v1/ruz/scheduler/123?date=2023-02-05", new TypeReference<ScheduleOfWeek>() {
-        })).thenReturn(mockSchedule);
+  void testGetGroups() {
+    assertDoesNotThrow(() -> {
+      List<Group> groups = scraper.getGroups("100");
+      assertNotNull(groups);
+    });
   }
 
+  @Test
+  void testGetGroupByName() {
+    assertDoesNotThrow(() -> {
+      Group group = scraper.getGroupByName("3530904/10006");
+      assertNotNull(group);
+      assertEquals("3530904/10006", group.getName());
+    });
+  }
+
+  @Test
+  void testGetRangeScheduleById() {
+    assertDoesNotThrow(() -> {
+      Instant start = Instant.now();
+      Instant end = start.plusSeconds(86400);
+      List<ScheduleOfWeek> schedules = scraper.getRangeScheduleById("100", start, end);
+      assertNotNull(schedules);
+      assertFalse(schedules.isEmpty());
+    });
+  }
+
+  @Test
+  void testGetRangeScheduleByName() {
+    assertDoesNotThrow(() -> {
+      Instant start = Instant.now();
+      Instant end = start.plusSeconds(86400);
+      List<ScheduleOfWeek> schedules = scraper.getRangeScheduleByName("3530904/10006", start, end);
+      assertNotNull(schedules);
+      assertFalse(schedules.isEmpty());
+    });
+  }
 }

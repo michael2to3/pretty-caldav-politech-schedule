@@ -52,13 +52,19 @@ public class Scraper {
     final String formatUrl = FormatUrl.getGroups(url, facultId);
     TypeReference<Map<String, Object>> typeRef = new TypeReference<Map<String, Object>>() {
     };
-    final ObjectMapper mapper = new ObjectMapper();
     final var response = request.get(formatUrl, typeRef);
-    final var f = ((List<Map<String, Object>>) response.get("groups"))
-        .stream()
-        .map(group -> mapper.convertValue(group, Group.class))
-        .collect(Collectors.toList());
-    return f;
+    final ObjectMapper mapper = new ObjectMapper();
+    List<Group> groupList = new ArrayList<>();
+    if (response.containsKey("groups")) {
+      TypeReference<List<Map<String, Object>>> tr = new TypeReference<List<Map<String, Object>>>() {
+      };
+      var groupMaps = mapper.convertValue(response.get("groups"), tr);
+      for (var group : groupMaps) {
+        var groupObj = mapper.convertValue(group, Group.class);
+        groupList.add(groupObj);
+      }
+    }
+    return groupList;
   }
 
   public Group getGroupByName(final String name) throws IOException {
